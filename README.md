@@ -10,7 +10,9 @@ Currently it contains:
 - setting attributes
 - setting styles
 - adding event listeners
-- and some dirty functions for Respo
+- location
+- search params
+- (Respo specific)and some dirty functions for Respo
 
 ### License
 
