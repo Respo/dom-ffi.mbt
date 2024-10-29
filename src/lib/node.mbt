@@ -45,6 +45,19 @@ pub extern "js" fn set_attribute(
 pub extern "js" fn remove_attribute(self : Element, name : String) -> Unit =
   #| (self, name) => { self.removeAttribute(name) }
 
+pub extern "js" fn set_data_attribute(
+  self : Element,
+  name : String,
+  value : String
+) -> Unit =
+  #| (self, name, value) => { self.dataset[name] = value }
+
+pub extern "js" fn data_attribute(self : Element, name : String) -> String =
+  #| (self, name) => self.dataset[name]
+
+pub extern "js" fn remove_data_attribute(self : Element, name : String) -> Unit =
+  #| (self, name) => { delete self.dataset[name] }
+
 pub extern "js" fn append_child(self : Element, child : Node) -> Unit =
   #| (self, child) => { self.appendChild(child) }
 

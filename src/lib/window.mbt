@@ -32,3 +32,14 @@ pub extern "js" fn request_animation_frame(
   f : (Float) -> Unit
 ) -> Unit =
   #| (self, f) => { self.requestAnimationFrame(f) }
+
+pub type BeforeUnloadEvent
+
+pub extern "js" fn before_unload_event() -> BeforeUnloadEvent =
+  #| () => new BeforeUnloadEvent()
+
+pub extern "js" fn set_onbeforeunload(
+  self : Window,
+  f : (BeforeUnloadEvent) -> Unit
+) -> Unit =
+  #| (self, f) => { self.onbeforeunload = f }
