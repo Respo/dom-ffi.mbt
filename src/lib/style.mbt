@@ -1,5 +1,5 @@
 // style
-pub type CSSStyleDeclaration
+pub(all) type CSSStyleDeclaration
 
 pub extern "js" fn style(self : Node) -> CSSStyleDeclaration =
   #| (self) => self.style

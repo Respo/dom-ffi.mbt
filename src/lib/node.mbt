@@ -1,6 +1,6 @@
 /// DOM Node type
 /// <https://developer.mozilla.org/en-US/docs/Web/API/Node>
-pub type Node
+pub(all) type Node
 
 pub extern "js" fn child_nodes(self : Node) -> Array[Node] =
   #| (self) => self.childNodes
@@ -20,7 +20,7 @@ pub extern "js" fn reinterpret_as_node(self : Element) -> Node =
 pub extern "js" fn first_child(self : Node) -> Node =
   #| (self) => self.firstChild
 
-pub type Element
+pub(all) type Element
 
 pub extern "js" fn set_inner_html(self : Element, html : String) -> Unit =
   #| (self, html) => { self.innerHTML = html }
@@ -103,20 +103,20 @@ pub extern "js" fn set_onkeyup(
 ) -> Unit =
   #| (self, f) =>  { self.onkeyup = f }
 
-pub extern "js" fn clone_node(self : Node, ~deep : Bool = false) -> Node =
+pub extern "js" fn clone_node(self : Node, deep~ : Bool = false) -> Node =
   #| (self, deep) => self.cloneNode(deep)
 
 pub extern "js" fn owner_document(self : Node) -> Document =
   #| (self) => self.ownerDocument
 
-pub type HtmlInputElement
+pub(all) type HtmlInputElement
 
 pub extern "js" fn reinterpret_as_html_input_element(
   self : Element
 ) -> HtmlInputElement =
   #| (self) => self
 
-pub type HtmlTextAreaElement
+pub(all) type HtmlTextAreaElement
 
 // set_onblur
 pub extern "js" fn set_onblur(

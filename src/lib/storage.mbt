@@ -1,4 +1,4 @@
-pub type LocalStorage
+pub(all) type LocalStorage
 
 pub extern "js" fn local_storage(self : Window) -> LocalStorage =
   #| (self) => self.localStorage

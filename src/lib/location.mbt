@@ -1,5 +1,5 @@
 /// https://developer.mozilla.org/en-US/docs/Web/API/Location
-pub type Location
+pub(all) type Location
 
 pub extern "js" fn location(self : Window) -> Location =
   #| (self) => self.location
