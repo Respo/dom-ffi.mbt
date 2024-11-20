@@ -1,4 +1,4 @@
-pub type Document
+pub(all) type Document
 
 pub extern "js" fn document(self : Window) -> Document =
   #| (self) => self.document

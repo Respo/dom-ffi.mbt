@@ -1,5 +1,5 @@
 // performance
-pub type Performance
+pub(all) type Performance
 
 pub extern "js" fn performance(self : Window) -> Performance =
   #| (self) => self.performance
