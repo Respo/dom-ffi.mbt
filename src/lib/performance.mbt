@@ -1,9 +1,12 @@
 // performance
+///|
 pub(all) type Performance
 
-pub extern "js" fn performance(self : Window) -> Performance =
+///|
+pub extern "js" fn Window::performance(self : Window) -> Performance =
   #| (self) => self.performance
 
 // performance.now
-pub extern "js" fn now(self : Performance) -> Float =
+///|
+pub extern "js" fn Performance::now(self : Performance) -> Float =
   #| (self) => self.now()
