@@ -1,5 +1,5 @@
 ///| window
-pub(all) type Window
+pub(all) extern type Window
 
 ///|
 pub extern "js" fn window() -> Window =
@@ -39,7 +39,7 @@ pub extern "js" fn Window::request_animation_frame(
   #| (self, f) => { self.requestAnimationFrame(f) }
 
 ///|
-pub(all) type BeforeUnloadEvent
+pub(all) extern type BeforeUnloadEvent
 
 ///|
 pub extern "js" fn before_unload_event() -> BeforeUnloadEvent =

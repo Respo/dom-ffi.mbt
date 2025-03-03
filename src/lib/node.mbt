@@ -1,6 +1,6 @@
 ///| DOM Node type
 /// <https://developer.mozilla.org/en-US/docs/Web/API/Node>
-pub(all) type Node
+pub(all) extern type Node
 
 ///|
 pub extern "js" fn Node::child_nodes(self : Node) -> Array[Node] =
@@ -26,7 +26,7 @@ pub extern "js" fn Node::first_child(self : Node) -> Node =
   #| (self) => self.firstChild
 
 ///|
-pub(all) type Element
+pub(all) extern type Element
 
 ///|
 pub extern "js" fn Element::set_inner_html(
@@ -149,7 +149,7 @@ pub extern "js" fn Node::owner_document(self : Node) -> Document =
   #| (self) => self.ownerDocument
 
 ///|
-pub(all) type HtmlInputElement
+pub(all) extern type HtmlInputElement
 
 ///|
 pub extern "js" fn Element::reinterpret_as_html_input_element(
@@ -158,7 +158,7 @@ pub extern "js" fn Element::reinterpret_as_html_input_element(
   #| (self) => self
 
 ///|
-pub(all) type HtmlTextAreaElement
+pub(all) extern type HtmlTextAreaElement
 
 // set_onblur
 ///|

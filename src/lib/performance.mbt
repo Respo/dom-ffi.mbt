@@ -1,6 +1,6 @@
 // performance
 ///|
-pub(all) type Performance
+pub(all) extern type Performance
 
 ///|
 pub extern "js" fn Window::performance(self : Window) -> Performance =

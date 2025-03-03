@@ -1,5 +1,5 @@
 ///|
-pub(all) type Document
+pub(all) extern type Document
 
 ///|
 pub extern "js" fn Window::document(self : Window) -> Document =

@@ -1,5 +1,5 @@
 ///|
-pub(all) type KeyboardEvent
+pub extern type KeyboardEvent
 
 ///|
 pub extern "js" fn KeyboardEvent::new_with_init_dict(
@@ -83,7 +83,7 @@ pub extern "js" fn set_repeat(self : KeyboardEvent, repeat : Bool) -> Unit =
   #| (self, repeat) => { self.repeat = repeat }
 
 ///| need to init function first before creating real event
-pub(all) type KeyboardEventInit
+pub extern type KeyboardEventInit
 
 ///|
 pub extern "js" fn KeyboardEventInit::new() -> KeyboardEventInit =
@@ -130,16 +130,16 @@ pub extern "js" fn set_key_code(
   #| (self, key_code) => { self.keyCode = key_code }
 
 ///|
-pub(all) type InputEvent
+pub extern type InputEvent
 
 ///|
-pub(all) type FocusEvent
+pub extern type FocusEvent
 
 ///|
-pub(all) type BlurEvent
+pub extern type BlurEvent
 
 ///|
-pub(all) type MouseEvent
+pub extern type MouseEvent
 
 ///|
 pub extern "js" fn MouseEvent::stop_propagation(self : MouseEvent) -> Unit =

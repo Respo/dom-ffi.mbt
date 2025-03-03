@@ -1,5 +1,5 @@
 ///| https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
-pub(all) type URLSearchParams
+extern type URLSearchParams
 
 ///|
 pub extern "js" fn new_url_search_params(s : String) -> URLSearchParams =

@@ -1,7 +1,7 @@
 // TODO: Implement Promise
 
 ///|
-pub(all) type JsValue
+pub(all) extern type JsValue
 
 ///|
 pub(all) struct Promise[T] {
