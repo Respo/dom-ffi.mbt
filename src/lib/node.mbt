@@ -1,6 +1,6 @@
 ///| DOM Node type
 /// <https://developer.mozilla.org/en-US/docs/Web/API/Node>
-pub(all) type Node
+pub(all) extern type Node
 
 ///|
 pub extern "js" fn Node::child_nodes(self : Node) -> Array[Node] =
@@ -26,7 +26,7 @@ pub extern "js" fn Node::first_child(self : Node) -> Node =
   #| (self) => self.firstChild
 
 ///|
-pub(all) type Element
+pub(all) extern type Element
 
 ///|
 pub extern "js" fn Element::set_inner_html(
@@ -149,7 +149,7 @@ pub extern "js" fn Node::owner_document(self : Node) -> Document =
   #| (self) => self.ownerDocument
 
 ///|
-pub(all) type HtmlInputElement
+pub(all) extern type HtmlInputElement
 
 ///|
 pub extern "js" fn Element::reinterpret_as_html_input_element(
@@ -158,7 +158,7 @@ pub extern "js" fn Element::reinterpret_as_html_input_element(
   #| (self) => self
 
 ///|
-pub(all) type HtmlTextAreaElement
+pub(all) extern type HtmlTextAreaElement
 
 // set_onblur
 ///|
@@ -259,15 +259,6 @@ pub extern "js" fn HtmlTextAreaElement::set_value(
 pub extern "js" fn Node::parent_element(self : Node) -> Element =
   #| (self) => self.parentElement
 
-// insert_before
-///|
-pub extern "js" fn Element::insert_before(
-  self : Element,
-  new_child : Node,
-  reference_child : Node
-) -> Unit =
-  #| (self, new_child, reference_child) => { self.insertBefore(new_child, reference_child) }
-
 ///|
 pub extern "js" fn Element::reinterpret_as_html_textarea_element(
   self : Element
@@ -327,14 +318,14 @@ pub extern "js" fn Document::create_element(
 pub extern "js" fn Node::append_child(self : Node, child : Node) -> Unit =
   #| (self, child) => self.appendChild(child)
 
-// insert_before on Node
-///|
+///| insert_before on Node
+///| notice that `Option[T]` is using `._0` to get the value, which may be unstable
 pub extern "js" fn Node::insert_before(
   self : Node,
   new_child : Node,
   reference_child : Node?
 ) -> Unit =
-  #| (self, new_child, reference_child) => { self.insertBefore(new_child, reference_child) }
+  #| (self, new_child, reference_child) => { self.insertBefore(new_child, reference_child?._0) }
 
 // target on input event
 ///|

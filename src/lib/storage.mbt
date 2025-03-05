@@ -1,5 +1,5 @@
 ///|
-pub(all) type LocalStorage
+pub(all) extern type LocalStorage
 
 ///|
 pub extern "js" fn local_storage(self : Window) -> LocalStorage =

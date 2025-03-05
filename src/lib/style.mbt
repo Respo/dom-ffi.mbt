@@ -1,6 +1,6 @@
 // style
 ///|
-pub(all) type CSSStyleDeclaration
+pub(all) extern type CSSStyleDeclaration
 
 ///|
 pub extern "js" fn Node::style(self : Node) -> CSSStyleDeclaration =
