@@ -1,5 +1,6 @@
 ///|
-pub(all) extern type LocalStorage
+#external
+pub(all) type LocalStorage
 
 ///|
 pub extern "js" fn local_storage(self : Window) -> LocalStorage =
@@ -13,13 +14,13 @@ pub extern "js" fn get_item(self : LocalStorage, key : String) -> String? =
 pub extern "js" fn LocalStorage::set_item(
   self : LocalStorage,
   key : String,
-  value : String
+  value : String,
 ) -> Unit =
   #| (self, key, value) => { self.setItem(key, value) }
 
 ///|
 pub extern "js" fn LocalStorage::remove_item(
   self : LocalStorage,
-  key : String
+  key : String,
 ) -> Unit =
   #| (self, key) => { self.removeItem(key) }

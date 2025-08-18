@@ -1,5 +1,6 @@
 ///| https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
-extern type URLSearchParams
+#external
+type URLSearchParams
 
 ///|
 pub extern "js" fn new_url_search_params(s : String) -> URLSearchParams =
@@ -8,21 +9,21 @@ pub extern "js" fn new_url_search_params(s : String) -> URLSearchParams =
 ///|
 pub extern "js" fn URLSearchParams::has(
   self : URLSearchParams,
-  name : String
+  name : String,
 ) -> Bool =
   #| (self, name) => self.has(name)
 
 ///|
 pub extern "js" fn URLSearchParams::get(
   self : URLSearchParams,
-  name : String
+  name : String,
 ) -> String =
   #| (self, name) => self.get(name)
 
 ///|
 pub extern "js" fn URLSearchParams::get_all(
   self : URLSearchParams,
-  name : String
+  name : String,
 ) -> Array[String] =
   #| (self, name) => self.getAll(name)
 
@@ -30,7 +31,7 @@ pub extern "js" fn URLSearchParams::get_all(
 pub extern "js" fn URLSearchParams::set(
   self : URLSearchParams,
   name : String,
-  value : String
+  value : String,
 ) -> Unit =
   #| (self, name, value) => self.set(name, value)
 
@@ -38,14 +39,14 @@ pub extern "js" fn URLSearchParams::set(
 pub extern "js" fn URLSearchParams::append(
   self : URLSearchParams,
   name : String,
-  value : String
+  value : String,
 ) -> Unit =
   #| (self, name, value) => self.append(name, value)
 
 ///|
 pub extern "js" fn URLSearchParams::delete(
   self : URLSearchParams,
-  name : String
+  name : String,
 ) -> Unit =
   #| (self, name) => self.delete(name)
 
