@@ -1,5 +1,6 @@
 ///| https://developer.mozilla.org/en-US/docs/Web/API/Location
-pub(all) extern type Location
+#external
+pub(all) type Location
 
 ///|
 pub extern "js" fn Window::location(self : Window) -> Location =
