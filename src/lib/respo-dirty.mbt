@@ -1,4 +1,5 @@
-///| this file contains dirty functions that Respo requires to call js
+///|
+/// this file contains dirty functions that Respo requires to call js
 
 // window
 pub extern "js" fn load_my_window() -> Window =
@@ -57,7 +58,8 @@ pub extern "js" fn dirty_call_fn_1(
 ) -> Unit =
   #| (self, name, v1) => self[name]?.(v1)
 
-///| a temporary solution for generating random id
+///|
+/// a temporary solution for generating random id
 pub extern "js" fn random_id() -> String =
   #| () => Math.random().toString(36).slice(2)
 

@@ -1,4 +1,5 @@
-///| https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
+///|
+/// https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
 #external
 type URLSearchParams
 

@@ -1,4 +1,5 @@
-///| DOM Node type
+///|
+/// DOM Node type
 /// <https://developer.mozilla.org/en-US/docs/Web/API/Node>
 #external
 pub(all) type Node
@@ -153,7 +154,7 @@ pub extern "js" fn HtmlTextAreaElement::set_onkeyup(
   #| (self, f) =>  { self.onkeyup = f }
 
 ///|
-pub extern "js" fn Node::clone_node(self : Node, deep~ : Bool = false) -> Node =
+pub extern "js" fn Node::clone_node(self : Node, deep? : Bool = false) -> Node =
   #| (self, deep) => self.cloneNode(deep)
 
 ///|
@@ -348,7 +349,8 @@ pub extern "js" fn Node::append_child(self : Node, child : Node) -> Unit =
 
 ///| insert_before on Node
 
-///| notice that `Option[T]` is using `._0` to get the value, which may be unstable
+///|
+/// notice that `Option[T]` is using `._0` to get the value, which may be unstable
 pub extern "js" fn Node::insert_before(
   self : Node,
   new_child : Node,

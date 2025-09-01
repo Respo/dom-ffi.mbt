@@ -93,7 +93,8 @@ pub extern "js" fn stop_propagation(self : KeyboardEvent) -> Unit =
 pub extern "js" fn set_repeat(self : KeyboardEvent, repeat : Bool) -> Unit =
   #| (self, repeat) => { self.repeat = repeat }
 
-///| need to init function first before creating real event
+///|
+/// need to init function first before creating real event
 #external
 pub type KeyboardEventInit
 

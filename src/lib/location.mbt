@@ -1,4 +1,5 @@
-///| https://developer.mozilla.org/en-US/docs/Web/API/Location
+///|
+/// https://developer.mozilla.org/en-US/docs/Web/API/Location
 #external
 pub(all) type Location
 

@@ -1,4 +1,5 @@
-///| window
+///|
+/// window
 #external
 pub(all) type Window
 
