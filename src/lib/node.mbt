@@ -27,8 +27,18 @@ pub extern "js" fn Element::reinterpret_as_node(self : Element) -> Node =
 // first_child
 
 ///|
-pub extern "js" fn Node::first_child(self : Node) -> Node =
+extern "js" fn Node::js_get_first_child(self : Node) -> JsObscure =
   #| (self) => self.firstChild
+
+///|
+pub fn Node::first_child(self : Node) -> Node? {
+  let first_child = self.js_get_first_child()
+  if first_child.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(first_child))
+  }
+}
 
 ///|
 #external
@@ -328,36 +338,47 @@ pub extern "js" fn Element::unset_ondblclick(self : Element) -> Unit =
   #| (self) = > { self.ondbclick = null }
 
 ///|
-pub extern "js" fn Element::query_selector(
+pub extern "js" fn Element::js_query_selector(
   self : Element,
   selector : String,
-) -> Element =
+) -> JsObscure =
   #| (self, selector) => self.querySelector(selector)
 
-// create_element
-
 ///|
-pub extern "js" fn Document::create_element(
-  self : Document,
-  name : String,
-) -> Element =
-  #| (self, name) => self.createElement(name)
+pub fn Element::query_selector(self : Element, selector : String) -> Element? {
+  let result = self.js_query_selector(selector)
+  if result.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(result))
+  }
+}
 
 ///|
 pub extern "js" fn Node::append_child(self : Node, child : Node) -> Unit =
   #| (self, child) => self.appendChild(child)
 
-///| insert_before on Node
-
 ///|
-/// notice that `Option[T]` is using `._0` to get the value, which may be unstable
-pub extern "js" fn Node::insert_before(
+/// insert_before on Node
+extern "js" fn Node::js_insert_before(
   self : Node,
   new_child : Node,
-  reference_child : Node?,
+  reference_child : JsObscure,
 ) -> Unit =
   #| (self, new_child, reference_child) => { self.insertBefore(new_child, reference_child?._0) }
 
+///|
+pub fn Node::insert_before(
+  self : Node,
+  new_child : Node,
+  reference_child : Node?,
+) -> Unit {
+  match reference_child {
+    None => self.js_insert_before(new_child, new_js_null())
+    Some(ref_child) =>
+      self.js_insert_before(new_child, v_to_js_obscure(ref_child))
+  }
+}
 // target on input event
 
 ///|

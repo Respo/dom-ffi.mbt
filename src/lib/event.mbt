@@ -12,85 +12,93 @@ pub extern "js" fn KeyboardEvent::new_with_init_dict(
 // key
 
 ///|
-pub extern "js" fn key(self : KeyboardEvent) -> String =
+pub extern "js" fn KeyboardEvent::key(self : KeyboardEvent) -> String =
   #| (self) => self.key
 
 // type_
 
 ///|
-pub extern "js" fn type_(self : KeyboardEvent) -> String =
+pub extern "js" fn KeyboardEvent::type_(self : KeyboardEvent) -> String =
   #| (self) => self.type
 
 // key_code
 
 ///|
-pub extern "js" fn key_code(self : KeyboardEvent) -> UInt =
+pub extern "js" fn KeyboardEvent::key_code(self : KeyboardEvent) -> UInt =
   #| (self) => self.keyCode
 
 // shift_key
 
 ///|
-pub extern "js" fn shift_key(self : KeyboardEvent) -> Bool =
+pub extern "js" fn KeyboardEvent::shift_key(self : KeyboardEvent) -> Bool =
   #| (self) => self.shiftKey
 
 // ctrl_key
 
 ///|
-pub extern "js" fn ctrl_key(self : KeyboardEvent) -> Bool =
+pub extern "js" fn KeyboardEvent::ctrl_key(self : KeyboardEvent) -> Bool =
   #| (self) => self.ctrlKey
 
 // alt_key
 
 ///|
-pub extern "js" fn alt_key(self : KeyboardEvent) -> Bool =
+pub extern "js" fn KeyboardEvent::alt_key(self : KeyboardEvent) -> Bool =
   #| (self) => self.altKey
 
 // meta_key
 
 ///|
-pub extern "js" fn meta_key(self : KeyboardEvent) -> Bool =
+pub extern "js" fn KeyboardEvent::meta_key(self : KeyboardEvent) -> Bool =
   #| (self) => self.metaKey
 
 // repeat
 
 ///|
-pub extern "js" fn repeat(self : KeyboardEvent) -> Bool =
+pub extern "js" fn KeyboardEvent::repeat(self : KeyboardEvent) -> Bool =
   #| (self) => self.repeat
 
 ///|
-pub extern "js" fn view(self : KeyboardEvent) -> Window =
+pub extern "js" fn KeyboardEvent::view(self : KeyboardEvent) -> Window =
   #| (self) => self.view
 
 ///|
-pub extern "js" fn code(self : KeyboardEvent) -> String =
+pub extern "js" fn KeyboardEvent::code(self : KeyboardEvent) -> String =
   #| (self) => self.code
 
 ///|
-pub extern "js" fn char_code(self : KeyboardEvent) -> UInt =
+pub extern "js" fn KeyboardEvent::char_code(self : KeyboardEvent) -> UInt =
   #| (self) => self.charCode
 
 ///|
-pub extern "js" fn location(self : KeyboardEvent) -> UInt =
+pub extern "js" fn KeyboardEvent::location(self : KeyboardEvent) -> UInt =
   #| (self) => self.location
 
 // dispatch_event
 
 ///|
-pub extern "js" fn dispatch_event(self : Node, event : KeyboardEvent) -> Bool =
+pub extern "js" fn Node::dispatch_event(
+  self : Node,
+  event : KeyboardEvent,
+) -> Bool =
   #| (self, event) => self.dispatchEvent(event)
 
 ///|
-pub extern "js" fn prevent_default(self : KeyboardEvent) -> Unit =
+pub extern "js" fn KeyboardEvent::prevent_default(self : KeyboardEvent) -> Unit =
   #| (self) => self.preventDefault()
 
 ///|
-pub extern "js" fn stop_propagation(self : KeyboardEvent) -> Unit =
+pub extern "js" fn KeyboardEvent::stop_propagation(
+  self : KeyboardEvent,
+) -> Unit =
   #| (self) => self.stopPropagation()
 
 // set_repeat
 
 ///|
-pub extern "js" fn set_repeat(self : KeyboardEvent, repeat : Bool) -> Unit =
+pub extern "js" fn KeyboardEvent::set_repeat(
+  self : KeyboardEvent,
+  repeat : Bool,
+) -> Unit =
   #| (self, repeat) => { self.repeat = repeat }
 
 ///|
