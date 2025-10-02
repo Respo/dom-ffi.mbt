@@ -179,7 +179,7 @@ pub type JsObjectObscure
 
 ///|
 pub extern "js" fn new_js_object() -> JsObjectObscure =
-  #| () => {}
+  #| () => ({})
 
 ///|
 pub extern "js" fn JsObjectObscure::keys(
