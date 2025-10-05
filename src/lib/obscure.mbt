@@ -21,7 +21,6 @@ pub extern "js" fn type_of(v : JsObscure) -> String =
 /// is undefined or null
 pub extern "js" fn JsObscure::is_nil(self : JsObscure) -> Bool =
   #| (self) => self === null
-  #|
 
 ///|
 pub extern "js" fn JsObscure::is_undefined(self : JsObscure) -> Bool =
@@ -106,70 +105,19 @@ pub extern "js" fn JsObscure::set(
   #| (self, prop, value) => self[prop] = value
 
 ///|
-#external
-pub type JsArrayObscure
+pub fn JsObscure::from_string(s : String) -> JsObscure = "%identity"
 
 ///|
-pub extern "js" fn new_js_array() -> JsArrayObscure =
-  #| () => []
+pub fn JsObscure::from_number(n : Int) -> JsObscure = "%identity"
 
 ///|
-pub extern "js" fn JsArrayObscure::length(self : JsArrayObscure) -> Int =
-  #| (self) => self.length
+pub fn JsObscure::from_float(n : Float) -> JsObscure = "%identity"
 
 ///|
-pub extern "js" fn JsArrayObscure::push(
-  self : JsArrayObscure,
-  value : JsObscure,
-) -> Unit =
-  #| (self, value) => self.push(value)
+pub fn JsObscure::from_bool(b : Bool) -> JsObscure = "%identity"
 
 ///|
-pub extern "js" fn JsArrayObscure::pop(self : JsArrayObscure) -> JsObscure =
-  #| (self) => self.pop()
-
-///|
-pub extern "js" fn JsArrayObscure::shift(self : JsArrayObscure) -> JsObscure =
-  #| (self) => self.shift()
-
-///|
-pub extern "js" fn JsArrayObscure::unshift(
-  self : JsArrayObscure,
-  value : JsObscure,
-) -> Unit =
-  #| (self, value) => self.unshift(value)
-
-///|
-pub extern "js" fn JsArrayObscure::slice(
-  self : JsArrayObscure,
-  start : Int,
-  end : Int,
-) -> JsArrayObscure =
-  #| (self, start, end) => self.slice(start, end)
-
-///|
-pub extern "js" fn JsArrayObscure::splice(
-  self : JsArrayObscure,
-  start : Int,
-  delete_count : Int,
-  items : JsArrayObscure,
-) -> JsArrayObscure =
-  #| (self, start, delete_count, items) => self.splice(start, delete_count, ...items)
-
-///|
-pub extern "js" fn JsArrayObscure::get(
-  self : JsArrayObscure,
-  index : Int,
-) -> JsObscure =
-  #| (self, index) => self[index]
-
-///|
-pub extern "js" fn JsArrayObscure::set(
-  self : JsArrayObscure,
-  index : Int,
-  value : JsObscure,
-) -> Unit =
-  #| (self, index, value) => self[index] = value
+pub fn JsObscure::from_array(a : Array[JsObscure]) -> JsObscure = "%identity"
 
 // JsObject
 
@@ -178,25 +126,25 @@ pub extern "js" fn JsArrayObscure::set(
 pub type JsObjectObscure
 
 ///|
-pub extern "js" fn new_js_object() -> JsObjectObscure =
+pub extern "js" fn JsObjectObscure::new() -> JsObjectObscure =
   #| () => ({})
 
 ///|
 pub extern "js" fn JsObjectObscure::keys(
   self : JsObjectObscure,
-) -> JsArrayObscure =
+) -> Array[JsObscure] =
   #| (self) => Object.keys(self)
 
 ///|
 pub extern "js" fn JsObjectObscure::values(
   self : JsObjectObscure,
-) -> JsArrayObscure =
+) -> Array[JsObscure] =
   #| (self) => Object.values(self)
 
 ///|
 pub extern "js" fn JsObjectObscure::entries(
   self : JsObjectObscure,
-) -> JsArrayObscure =
+) -> Array[JsObscure] =
   #| (self) => Object.entries(self)
 
 // get/set
@@ -235,10 +183,19 @@ pub extern "js" fn JsObjectObscure::size(self : JsObjectObscure) -> Int =
   #| (self) => Object.keys(self).length
 
 ///|
+pub fn JsObjectObscure::to_js_obscure(self : JsObjectObscure) -> JsObscure = "%identity"
+
+///|
 /// eval js code
 pub extern "js" fn eval_js_code(code : String) -> JsObscure =
   #| (code) => eval(code)
 
 ///|
-pub extern "js" fn new_js_null() -> JsObscure =
+/// created JavaScript `null`
+pub extern "js" fn JsObscure::null() -> JsObscure =
+  #| () => null
+
+///|
+/// creates JavaScript `undefined`
+pub extern "js" fn JsObscure::undefined() -> JsObscure =
   #| () => null

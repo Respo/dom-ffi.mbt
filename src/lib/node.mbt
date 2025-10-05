@@ -365,7 +365,7 @@ extern "js" fn Node::js_insert_before(
   new_child : Node,
   reference_child : JsObscure,
 ) -> Unit =
-  #| (self, new_child, reference_child) => { self.insertBefore(new_child, reference_child?._0) }
+  #| (self, new_child, reference_child) => { self.insertBefore(new_child, reference_child) }
 
 ///|
 pub fn Node::insert_before(
@@ -374,7 +374,7 @@ pub fn Node::insert_before(
   reference_child : Node?,
 ) -> Unit {
   match reference_child {
-    None => self.js_insert_before(new_child, new_js_null())
+    None => self.js_insert_before(new_child, JsObscure::null())
     Some(ref_child) =>
       self.js_insert_before(new_child, v_to_js_obscure(ref_child))
   }
@@ -387,4 +387,10 @@ pub extern "js" fn InputEvent::target(self : InputEvent) -> Element =
 
 ///|
 pub extern "js" fn Element::focus(self : Element) -> Unit =
-  #| (self) => self?.focus()
+  #| (self) => { 
+  #|   if (self) {
+  #|     self.focus()
+  #|   } else {
+  #|     console.warn("Trying to focus on a null element");
+  #|   }
+  #| }

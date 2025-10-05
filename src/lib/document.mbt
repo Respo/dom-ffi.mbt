@@ -29,7 +29,7 @@ extern "js" fn js_query_selector(
 extern "js" fn js_query_selector_all(
   doc : Document,
   selector : String,
-) -> JsArrayObscure =
+) -> Array[JsObscure] =
   #| (doc, selector) => doc.querySelectorAll(selector)
 
 ///|
@@ -52,7 +52,7 @@ pub fn Document::query_selector_all(
   let len = data.length()
   let result : Array[Element] = []
   for i in 0..<len {
-    let e = data.get(i)
+    let e = data.get(i).unwrap_or(JsObscure::undefined())
     result.push(js_obscure_to_v(e))
   }
   result
