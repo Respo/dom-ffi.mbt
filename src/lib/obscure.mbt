@@ -225,6 +225,15 @@ pub extern "js" fn JsObjectObscure::size(self : JsObjectObscure) -> Int =
 pub fn JsObjectObscure::to_js_obscure(self : JsObjectObscure) -> JsObscure = "%identity"
 
 ///|
+/// Call method with arguments
+pub extern "js" fn JsObjectObscure::call_method_args(
+  self : Self,
+  method_ : String,
+  args : Array[JsObscure],
+) -> JsObscure =
+  #| (self, method_, args) => self[method_](...args)
+
+///|
 /// | Evaluates JavaScript code and returns the result.
 pub extern "js" fn eval_js_code(code : String) -> JsObscure =
   #| (code) => eval(code)
@@ -238,3 +247,21 @@ pub extern "js" fn JsObscure::null() -> JsObscure =
 /// | Creates a JavaScript `undefined` value.
 pub extern "js" fn JsObscure::undefined() -> JsObscure =
   #| () => undefined
+
+///|
+#external
+pub type JsFnObscure
+
+///|
+pub fn JsFnObscure::to_obscure(self : JsFnObscure) -> JsObscure = "%identity"
+
+///|
+/// Perform detection and conversion
+pub fn[T] JsFnObscure::from(t : T) -> JsFnObscure {
+  let js_t = v_to_js_obscure(t)
+  if !js_t.is_function() {
+    js_obscure_to_v(js_t)
+    warn_log("JsFnObscure::from: not a function")
+  }
+  js_obscure_to_v(js_t)
+}

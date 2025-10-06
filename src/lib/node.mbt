@@ -542,3 +542,11 @@ pub extern "js" fn Element::focus(self : Element) -> Unit =
   #|     console.warn("Trying to focus on a null element");
   #|   }
   #| }
+
+///|
+/// cast Element to JsObjectObscure
+pub fn Element::to_js_object(self : Element) -> JsObjectObscure = "%identity"
+
+///|
+/// cast Node to JsObjectObscure
+pub fn Node::to_js_object(self : Node) -> JsObjectObscure = "%identity"

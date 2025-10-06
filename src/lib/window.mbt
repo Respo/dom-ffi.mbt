@@ -13,7 +13,7 @@ pub extern "js" fn window() -> Window =
 pub extern "js" fn Window::add_event_listener_with_callback(
   self : Window,
   type_ : String,
-  f : (KeyboardEvent) -> Bool, // TODO
+  f : JsFnObscure,
 ) -> Unit =
   #| (self, type, f) => { self.addEventListener(type, f) }
 
@@ -23,7 +23,7 @@ pub extern "js" fn Window::add_event_listener_with_callback(
 pub extern "js" fn Window::remove_event_listener_with_callback(
   self : Window,
   type_ : String,
-  f : () -> Bool, // TODO
+  f : JsFnObscure,
 ) -> Unit =
   #| (self, type, f) => { self.removeEventListener(type, f) }
 
@@ -56,3 +56,7 @@ pub extern "js" fn set_onbeforeunload(
   f : (BeforeUnloadEvent) -> Unit,
 ) -> Unit =
   #| (self, f) => { self.onbeforeunload = f }
+
+///|
+/// Cast Window to JsObjectObscure
+pub fn Window::to_js_object(self : Window) -> JsObjectObscure = "%identity"
