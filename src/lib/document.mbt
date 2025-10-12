@@ -56,7 +56,7 @@ pub fn Document::query_selector(self : Document, selector : String) -> Element? 
   if e.is_nil() {
     None
   } else {
-    Some(js_obscure_to_v(js_obscure_to_v(e)))
+    Some(js_obscure_to_v(e))
   }
 }
 
