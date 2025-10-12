@@ -24,7 +24,7 @@ pub extern "js" fn type_of(v : JsObscure) -> String =
 ///|
 /// | Checks if the value is `null`.
 pub extern "js" fn JsObscure::is_nil(self : JsObscure) -> Bool =
-  #| (self) => self === null
+  #| (self) => self == null
 
 ///|
 /// | Checks if the value is `undefined`.
