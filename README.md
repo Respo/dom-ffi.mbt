@@ -12,7 +12,6 @@ Currently it contains:
 - adding event listeners
 - location
 - search params
-- (Respo specific)and some dirty functions for Respo
 
 ### License
 
