@@ -1,4 +1,4 @@
 ///|
 fn main {
-  @lib.debugger()
+  @dom_ffi.debugger()
 }

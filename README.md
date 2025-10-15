@@ -1,8 +1,12 @@
-## DOM FFI (used by Respo.mbt)
+## dom-ffi
 
-> this repo contains some basic DOM FFI functions for Respo.mbt . It's not a complete list of DOM FFI functions, contributions are welcome if you like it.
+> A minimal FFI layer for DOM operations, designed for use with Respo.mbt
 
 Docs: https://mooncakes.io/docs/#/tiye/dom-ffi/lib/members
+
+```bash
+moon add tiye/dom-ffi
+```
 
 Currently it contains:
 

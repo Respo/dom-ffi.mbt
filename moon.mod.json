@@ -1,12 +1,12 @@
 {
   "name": "tiye/dom-ffi",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "readme": "README.md",
   "repository": "https://github.com/Respo/dom-ffi.mbt",
   "homepage": "https://github.com/Respo/dom-ffi.mbt",
   "license": "Apache-2.0",
   "keywords": ["dom", "ffi"],
-  "description": "DOM FFI (partial. used by Respo.mbt)",
+  "description": "A minimal FFI layer for DOM operations, designed for use with Respo.mbt",
   "source": "src",
   "preferred-target": "js"
 }
