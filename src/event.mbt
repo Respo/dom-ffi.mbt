@@ -111,40 +111,49 @@ pub extern "js" fn KeyboardEventInit::new() -> KeyboardEventInit =
   #| () => ({})
 
 ///|
-pub extern "js" fn keyboard_event_init(
+pub extern "js" fn Window::keyboard_event_init(
   self : Window,
   type_ : String,
 ) -> KeyboardEventInit =
   #| (self, type) => ({})
 
 ///|
-pub extern "js" fn set_key(self : KeyboardEventInit, key : String) -> Unit =
+pub extern "js" fn KeyboardEventInit::set_key(
+  self : KeyboardEventInit,
+  key : String,
+) -> Unit =
   #| (self, key) => { self.key = key }
 
 ///|
-pub extern "js" fn set_code(self : KeyboardEventInit, code : String) -> Unit =
+pub extern "js" fn KeyboardEventInit::set_code(
+  self : KeyboardEventInit,
+  code : String,
+) -> Unit =
   #| (self, code) => { self.code = code }
 
 ///|
-pub extern "js" fn set_char_code(
+pub extern "js" fn KeyboardEventInit::set_char_code(
   self : KeyboardEventInit,
   char_code : UInt,
 ) -> Unit =
   #| (self, char_code) => { self.charCode = char_code }
 
 ///|
-pub extern "js" fn set_view(self : KeyboardEventInit, view : Window) -> Unit =
+pub extern "js" fn KeyboardEventInit::set_view(
+  self : KeyboardEventInit,
+  view : Window,
+) -> Unit =
   #| (self, view) => { self.view = view }
 
 ///|
-pub extern "js" fn set_location(
+pub extern "js" fn KeyboardEventInit::set_location(
   self : KeyboardEventInit,
   location : UInt,
 ) -> Unit =
   #| (self, location) => { self.location = location }
 
 ///|
-pub extern "js" fn set_key_code(
+pub extern "js" fn KeyboardEventInit::set_key_code(
   self : KeyboardEventInit,
   key_code : UInt,
 ) -> Unit =

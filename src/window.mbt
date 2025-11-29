@@ -51,7 +51,7 @@ pub extern "js" fn before_unload_event() -> BeforeUnloadEvent =
   #| () => new BeforeUnloadEvent()
 
 ///|
-pub extern "js" fn set_onbeforeunload(
+pub extern "js" fn Window::set_onbeforeunload(
   self : Window,
   f : (BeforeUnloadEvent) -> Unit,
 ) -> Unit =

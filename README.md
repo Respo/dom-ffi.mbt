@@ -8,6 +8,10 @@ Docs: https://mooncakes.io/docs/#/tiye/dom-ffi/lib/members
 moon add tiye/dom-ffi
 ```
 
+```js
+"import": [{ "path": "tiye/dom-ffi", "alias": "dom_ffi" }]
+```
+
 Currently it contains:
 
 - querying elements

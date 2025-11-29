@@ -3,7 +3,7 @@
 pub(all) type LocalStorage
 
 ///|
-pub extern "js" fn local_storage(self : Window) -> LocalStorage =
+pub extern "js" fn Window::local_storage(self : Window) -> LocalStorage =
   #| (self) => self.localStorage
 
 ///|
