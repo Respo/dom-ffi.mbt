@@ -550,3 +550,110 @@ pub fn Element::to_js_object(self : Element) -> JsObjectObscure = "%identity"
 ///|
 /// cast Node to JsObjectObscure
 pub fn Node::to_js_object(self : Node) -> JsObjectObscure = "%identity"
+
+// Drag and Drop events
+
+///|
+/// | Sets the `ondragstart` event handler for an element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ondragstart)
+pub extern "js" fn Element::set_ondragstart(
+  self : Element,
+  f : (DragEvent) -> Unit,
+) -> Unit =
+  #| (self, f) => { self.ondragstart = f }
+
+///|
+/// | Removes the `ondragstart` event handler from an element.
+pub extern "js" fn Element::unset_ondragstart(self : Element) -> Unit =
+  #| (self) => { self.ondragstart = null }
+
+///|
+/// | Sets the `ondragend` event handler for an element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ondragend)
+pub extern "js" fn Element::set_ondragend(
+  self : Element,
+  f : (DragEvent) -> Unit,
+) -> Unit =
+  #| (self, f) => { self.ondragend = f }
+
+///|
+/// | Removes the `ondragend` event handler from an element.
+pub extern "js" fn Element::unset_ondragend(self : Element) -> Unit =
+  #| (self) => { self.ondragend = null }
+
+///|
+/// | Sets the `ondragover` event handler for an element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ondragover)
+pub extern "js" fn Element::set_ondragover(
+  self : Element,
+  f : (DragEvent) -> Unit,
+) -> Unit =
+  #| (self, f) => { self.ondragover = f }
+
+///|
+/// | Removes the `ondragover` event handler from an element.
+pub extern "js" fn Element::unset_ondragover(self : Element) -> Unit =
+  #| (self) => { self.ondragover = null }
+
+///|
+/// | Sets the `ondragenter` event handler for an element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ondragenter)
+pub extern "js" fn Element::set_ondragenter(
+  self : Element,
+  f : (DragEvent) -> Unit,
+) -> Unit =
+  #| (self, f) => { self.ondragenter = f }
+
+///|
+/// | Removes the `ondragenter` event handler from an element.
+pub extern "js" fn Element::unset_ondragenter(self : Element) -> Unit =
+  #| (self) => { self.ondragenter = null }
+
+///|
+/// | Sets the `ondragleave` event handler for an element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ondragleave)
+pub extern "js" fn Element::set_ondragleave(
+  self : Element,
+  f : (DragEvent) -> Unit,
+) -> Unit =
+  #| (self, f) => { self.ondragleave = f }
+
+///|
+/// | Removes the `ondragleave` event handler from an element.
+pub extern "js" fn Element::unset_ondragleave(self : Element) -> Unit =
+  #| (self) => { self.ondragleave = null }
+
+///|
+/// | Sets the `ondrop` event handler for an element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ondrop)
+pub extern "js" fn Element::set_ondrop(
+  self : Element,
+  f : (DragEvent) -> Unit,
+) -> Unit =
+  #| (self, f) => { self.ondrop = f }
+
+///|
+/// | Removes the `ondrop` event handler from an element.
+pub extern "js" fn Element::unset_ondrop(self : Element) -> Unit =
+  #| (self) => { self.ondrop = null }
+
+///|
+/// | Sets the `ondrag` event handler for an element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ondrag)
+pub extern "js" fn Element::set_ondrag(
+  self : Element,
+  f : (DragEvent) -> Unit,
+) -> Unit =
+  #| (self, f) => { self.ondrag = f }
+
+///|
+/// | Removes the `ondrag` event handler from an element.
+pub extern "js" fn Element::unset_ondrag(self : Element) -> Unit =
+  #| (self) => { self.ondrag = null }

@@ -194,3 +194,65 @@ pub extern "js" fn MouseEvent::client_x(self : MouseEvent) -> Float =
 ///|
 pub extern "js" fn MouseEvent::client_y(self : MouseEvent) -> Float =
   #| (self) => self.clientY
+
+///|
+#external
+pub type DragEvent
+
+///|
+pub extern "js" fn DragEvent::stop_propagation(self : DragEvent) -> Unit =
+  #| (self) => self.stopPropagation()
+
+///|
+pub extern "js" fn DragEvent::prevent_default(self : DragEvent) -> Unit =
+  #| (self) => self.preventDefault()
+
+///|
+pub extern "js" fn DragEvent::client_x(self : DragEvent) -> Float =
+  #| (self) => self.clientX
+
+///|
+pub extern "js" fn DragEvent::client_y(self : DragEvent) -> Float =
+  #| (self) => self.clientY
+
+///|
+/// Returns the data being dragged, during a drag and drop operation
+pub extern "js" fn DragEvent::data_transfer(self : DragEvent) -> DataTransfer =
+  #| (self) => self.dataTransfer
+
+///|
+#external
+pub type DataTransfer
+
+///|
+pub extern "js" fn DataTransfer::set_data(
+  self : DataTransfer,
+  format : String,
+  data : String,
+) -> Unit =
+  #| (self, format, data) => self.setData(format, data)
+
+///|
+pub extern "js" fn DataTransfer::get_data(
+  self : DataTransfer,
+  format : String,
+) -> String =
+  #| (self, format) => self.getData(format)
+
+///|
+pub extern "js" fn DataTransfer::clear_data(self : DataTransfer) -> Unit =
+  #| (self) => self.clearData()
+
+///|
+pub extern "js" fn DataTransfer::set_drop_effect(
+  self : DataTransfer,
+  effect : String,
+) -> Unit =
+  #| (self, effect) => { self.dropEffect = effect }
+
+///|
+pub extern "js" fn DataTransfer::set_effect_allowed(
+  self : DataTransfer,
+  effect : String,
+) -> Unit =
+  #| (self, effect) => { self.effectAllowed = effect }
