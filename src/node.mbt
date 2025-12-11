@@ -54,6 +54,52 @@ pub fn Node::first_child(self : Node) -> Node? {
 }
 
 ///|
+/// | Represents a rectangle describing the size and position of an element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/DOMRect)
+pub(all) struct DomRect {
+  /// The x coordinate of the DOMRect's origin.
+  x : Float
+  /// The y coordinate of the DOMRect's origin.
+  y : Float
+  /// The width of the DOMRect.
+  width : Float
+  /// The height of the DOMRect.
+  height : Float
+  /// The top coordinate value of the DOMRect (same as y).
+  top : Float
+  /// The right coordinate value of the DOMRect (x + width).
+  right : Float
+  /// The bottom coordinate value of the DOMRect (y + height).
+  bottom : Float
+  /// The left coordinate value of the DOMRect (same as x).
+  left : Float
+}
+
+///|
+/// | Internal JS extern to get bounding client rect.
+extern "js" fn js_get_bounding_client_rect(el : Element) -> FixedArray[Float] =
+  #| (el) => { const r = el.getBoundingClientRect(); return [r.x, r.y, r.width, r.height, r.top, r.right, r.bottom, r.left]; }
+
+///|
+/// | Returns the size of an element and its position relative to the viewport.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect)
+pub fn Element::get_bounding_client_rect(self : Element) -> DomRect {
+  let arr = js_get_bounding_client_rect(self)
+  {
+    x: arr[0],
+    y: arr[1],
+    width: arr[2],
+    height: arr[3],
+    top: arr[4],
+    right: arr[5],
+    bottom: arr[6],
+    left: arr[7],
+  }
+}
+
+///|
 /// | The most general base class from which all objects in a `Document` inherit.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Element)
@@ -535,7 +581,7 @@ pub extern "js" fn InputEvent::target(self : InputEvent) -> Element =
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus)
 pub extern "js" fn Element::focus(self : Element) -> Unit =
-  #| (self) => { 
+  #| (self) => {
   #|   if (self) {
   #|     self.focus()
   #|   } else {
