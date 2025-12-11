@@ -186,11 +186,159 @@ pub extern "js" fn MouseEvent::prevent_default(self : MouseEvent) -> Unit =
 // client_x
 
 ///|
+/// | Returns the horizontal coordinate within the viewport at which the event occurred.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX)
 pub extern "js" fn MouseEvent::client_x(self : MouseEvent) -> Float =
   #| (self) => self.clientX
 
 // client_y
 
 ///|
+/// | Returns the vertical coordinate within the viewport at which the event occurred.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientY)
 pub extern "js" fn MouseEvent::client_y(self : MouseEvent) -> Float =
   #| (self) => self.clientY
+
+// page_x
+
+///|
+/// | Returns the horizontal coordinate (in pixels) at which the mouse was clicked, relative to the left edge of the entire document.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX)
+pub extern "js" fn MouseEvent::page_x(self : MouseEvent) -> Float =
+  #| (self) => self.pageX
+
+// page_y
+
+///|
+/// | Returns the vertical coordinate (in pixels) at which the mouse was clicked, relative to the top edge of the entire document.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageY)
+pub extern "js" fn MouseEvent::page_y(self : MouseEvent) -> Float =
+  #| (self) => self.pageY
+
+// offset_x
+
+///|
+/// | Returns the horizontal offset (in pixels) of the pointer from the left edge of the target element's padding edge.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetX)
+pub extern "js" fn MouseEvent::offset_x(self : MouseEvent) -> Float =
+  #| (self) => self.offsetX
+
+// offset_y
+
+///|
+/// | Returns the vertical offset (in pixels) of the pointer from the top edge of the target element's padding edge.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetY)
+pub extern "js" fn MouseEvent::offset_y(self : MouseEvent) -> Float =
+  #| (self) => self.offsetY
+
+///|
+#external
+pub type DragEvent
+
+///|
+pub extern "js" fn DragEvent::stop_propagation(self : DragEvent) -> Unit =
+  #| (self) => self.stopPropagation()
+
+///|
+pub extern "js" fn DragEvent::prevent_default(self : DragEvent) -> Unit =
+  #| (self) => self.preventDefault()
+
+///|
+/// | Returns the horizontal coordinate within the viewport at which the event occurred.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientX)
+pub extern "js" fn DragEvent::client_x(self : DragEvent) -> Float =
+  #| (self) => self.clientX
+
+///|
+/// | Returns the vertical coordinate within the viewport at which the event occurred.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/clientY)
+pub extern "js" fn DragEvent::client_y(self : DragEvent) -> Float =
+  #| (self) => self.clientY
+
+// page_x
+
+///|
+/// | Returns the horizontal coordinate (in pixels) relative to the left edge of the entire document.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageX)
+pub extern "js" fn DragEvent::page_x(self : DragEvent) -> Float =
+  #| (self) => self.pageX
+
+// page_y
+
+///|
+/// | Returns the vertical coordinate (in pixels) relative to the top edge of the entire document.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/pageY)
+pub extern "js" fn DragEvent::page_y(self : DragEvent) -> Float =
+  #| (self) => self.pageY
+
+// offset_x
+
+///|
+/// | Returns the horizontal offset (in pixels) from the left edge of the target element's padding edge.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetX)
+pub extern "js" fn DragEvent::offset_x(self : DragEvent) -> Float =
+  #| (self) => self.offsetX
+
+// offset_y
+
+///|
+/// | Returns the vertical offset (in pixels) from the top edge of the target element's padding edge.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetY)
+pub extern "js" fn DragEvent::offset_y(self : DragEvent) -> Float =
+  #| (self) => self.offsetY
+
+///|
+/// | Returns the data being dragged, during a drag and drop operation.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/DragEvent/dataTransfer)
+pub extern "js" fn DragEvent::data_transfer(self : DragEvent) -> DataTransfer =
+  #| (self) => self.dataTransfer
+
+///|
+#external
+pub type DataTransfer
+
+///|
+pub extern "js" fn DataTransfer::set_data(
+  self : DataTransfer,
+  format : String,
+  data : String,
+) -> Unit =
+  #| (self, format, data) => self.setData(format, data)
+
+///|
+pub extern "js" fn DataTransfer::get_data(
+  self : DataTransfer,
+  format : String,
+) -> String =
+  #| (self, format) => self.getData(format)
+
+///|
+pub extern "js" fn DataTransfer::clear_data(self : DataTransfer) -> Unit =
+  #| (self) => self.clearData()
+
+///|
+pub extern "js" fn DataTransfer::set_drop_effect(
+  self : DataTransfer,
+  effect : String,
+) -> Unit =
+  #| (self, effect) => { self.dropEffect = effect }
+
+///|
+pub extern "js" fn DataTransfer::set_effect_allowed(
+  self : DataTransfer,
+  effect : String,
+) -> Unit =
+  #| (self, effect) => { self.effectAllowed = effect }
