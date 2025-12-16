@@ -31,6 +31,25 @@ pub extern "js" fn Document::head(self : Document) -> Element =
   #| (self) => self.head
 
 ///|
+/// | An internal helper function for `getElementById`.
+extern "js" fn js_get_element_by_id(doc : Document, id : String) -> JsObscure =
+  #| (doc, id) => doc.getElementById(id)
+
+///|
+/// | Returns a reference to the element by its ID.
+/// | Returns `None` if no element with the specified ID is found.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById)
+pub fn Document::get_element_by_id(self : Document, id : String) -> Element? {
+  let e = js_get_element_by_id(self, id)
+  if e.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(e))
+  }
+}
+
+///|
 /// | An internal helper function for `querySelector`.
 extern "js" fn js_query_selector(
   doc : Document,
@@ -89,3 +108,32 @@ pub extern "js" fn Document::create_element(
   name : String,
 ) -> Element =
   #| (self, name) => self.createElement(name)
+
+// Convenience functions for document queries (global scope)
+
+///|
+/// | Returns the first `Element` within the document that matches the specified selector, or `None` if no matches are found.
+/// | Convenience function that uses the global document object.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector)
+pub fn document_query_selector(selector : String) -> Element? {
+  window().document().query_selector(selector)
+}
+
+///|
+/// | Returns a static (not live) `NodeList` representing a list of the document's elements that match the specified group of selectors.
+/// | Convenience function that uses the global document object.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
+pub fn document_query_selector_all(selector : String) -> Array[Element] {
+  window().document().query_selector_all(selector)
+}
+
+///|
+/// | Returns a reference to the element by its ID.
+/// | Convenience function that uses the global document object.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById)
+pub fn document_get_element_by_id(id : String) -> Element? {
+  window().document().get_element_by_id(id)
+}
