@@ -4,27 +4,100 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
 jobs:
   publish:
+    if: ${{ !github.event.release.prerelease && !github.event.release.draft }}
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          ref: ${{ github.event.release.tag_name }}
 
-      - name: install moonbit
+      - name: Setup MoonBit
+        uses: hustcer/setup-moonbit@1522f9aef02a8ca0187dfc00a41f5dd6b16750f7 # v1.23
+        with:
+          version: "0.10.4+2cc641edf"
+          core-version: "0.10.4+2cc641edf"
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: Require the release tag to match moon.mod
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
-          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+          set -euo pipefail
+          module_version="$(sed -nE 's/^version = "([^"]+)"$/\1/p' moon.mod)"
+          test -n "$module_version"
+          test "$RELEASE_TAG" = "$module_version"
 
-      - name: moon check
-        run: moon check
+      - name: Install JavaScript test dependencies
+        run: corepack yarn@1.22.22 install --frozen-lockfile --ignore-scripts
 
-      - name: moon test
-        run: moon test --target js
+      - name: Check, test, and build the JS target
+        run: |
+          moon version
+          moon check --target js
+          moon test --target js
+          moon build --target js --debug
 
-      - name: setup credentials
+      - name: Verify generated interface and formatting
+        run: |
+          moon info
+          moon fmt
+          git diff --exit-code
+
+      - name: Verify public API documentation floor
+        run: corepack yarn@1.22.22 check:docs
+
+      - name: Install Chromium
+        run: corepack yarn@1.22.22 playwright install --with-deps chromium
+
+      - name: Run real-browser conformance
+        run: corepack yarn@1.22.22 test:browser
+
+      - name: Setup publishing credentials
         run: |
           mkdir -p ~/.moon
           echo '${{ secrets.MOON_CREDENTIALS }}' > ~/.moon/credentials.json
 
-      - name: moon publish
+      - name: Publish MoonBit package
         run: moon publish
+
+      - name: Verify the published package from a downstream consumer
+        env:
+          DOM_FFI_VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          set -euo pipefail
+          consumer="$RUNNER_TEMP/dom-ffi-release-consumer"
+          moon new "$consumer" --user release-check --name dom-ffi-consumer
+          cd "$consumer"
+          moon update
+          moon add "tiye/dom-ffi@$DOM_FFI_VERSION" --no-update
+          cat > cmd/main/moon.pkg <<'EOF'
+          import {
+            "tiye/dom-ffi" @dom_ffi,
+          }
+
+          options(
+            "is-main": true,
+          )
+          EOF
+          cat > cmd/main/main.mbt <<'EOF'
+          fn main {
+            ignore(@dom_ffi.window())
+          }
+          EOF
+          moon fmt
+          moon check --target js
+          moon test --target js
+          moon build --target js --debug
