@@ -1,0 +1,5 @@
+import {
+  "tiye/dom-ffi" @dom_ffi,
+}
+
+pkgtype(kind: "executable")

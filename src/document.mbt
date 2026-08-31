@@ -15,20 +15,44 @@ pub extern "js" fn Window::document(self : Window) -> Document =
 // body
 
 ///|
-/// | Returns the `<body>` or `<frameset>` node of the current document.
+/// | Returns the `<body>` or `<frameset>` element, or `None` while the
+/// | document has no body.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Document/body)
-pub extern "js" fn Document::body(self : Document) -> Element =
+extern "js" fn Document::js_body(self : Document) -> JsObscure =
   #| (self) => self.body
+
+///|
+/// | Returns the `<body>` or `<frameset>` element, or `None` while the
+/// | document has no body.
+pub fn Document::body(self : Document) -> Element? {
+  let body = self.js_body()
+  if body.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(body))
+  }
+}
 
 // head
 
 ///|
-/// | Returns the `<head>` element of the current document.
+/// | Returns the `<head>` element, or `None` when the document has no head.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Document/head)
-pub extern "js" fn Document::head(self : Document) -> Element =
+extern "js" fn Document::js_head(self : Document) -> JsObscure =
   #| (self) => self.head
+
+///|
+/// | Returns the `<head>` element, or `None` when the document has no head.
+pub fn Document::head(self : Document) -> Element? {
+  let head = self.js_head()
+  if head.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(head))
+  }
+}
 
 ///|
 /// | An internal helper function for `getElementById`.
@@ -62,8 +86,8 @@ extern "js" fn js_query_selector(
 extern "js" fn js_query_selector_all(
   doc : Document,
   selector : String,
-) -> Array[JsObscure] =
-  #| (doc, selector) => doc.querySelectorAll(selector)
+) -> FixedArray[JsObscure] =
+  #| (doc, selector) => Array.from(doc.querySelectorAll(selector))
 
 ///|
 /// | Returns the first `Element` within the document that matches the specified selector, or group of selectors.

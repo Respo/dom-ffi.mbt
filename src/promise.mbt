@@ -7,7 +7,7 @@ extern "js" fn js_to_string(v : JsObscure) -> String =
   #| (v) => { return v.toString()}
 
 ///|
-pub impl Show for JsPromise with output(self : JsPromise, logger : &Logger) -> Unit {
+pub impl Show for JsPromise with fn output(self : JsPromise, logger : &Logger) -> Unit {
   logger.write_string(js_to_string(v_to_js_obscure(self)))
 }
 

@@ -16,7 +16,7 @@ pub extern "js" fn CSSStyleDeclaration::set_property(
   name : String,
   value : String,
 ) -> Unit =
-  #| (self, name, value) => { self[name] = value }
+  #| (self, name, value) => { self.setProperty(name, value) }
 
 // remove_property
 
@@ -25,7 +25,7 @@ pub extern "js" fn CSSStyleDeclaration::remove_property(
   self : CSSStyleDeclaration,
   name : String,
 ) -> Unit =
-  #| (self, name) => { delete self[name] }
+  #| (self, name) => { self.removeProperty(name) }
 
 // inject_style
 

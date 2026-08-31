@@ -4,7 +4,7 @@
 type URLSearchParams
 
 ///|
-pub impl Show for URLSearchParams with output(
+pub impl Show for URLSearchParams with fn output(
   self : URLSearchParams,
   logger : &Logger,
 ) -> Unit {
@@ -64,22 +64,34 @@ pub extern "js" fn URLSearchParams::has(
 /// - `name`: The name of the parameter to get
 ///
 /// # Returns
-/// `String` - The first value associated with the parameter, or empty string if not found
+/// `String?` - The first value associated with the parameter, or `None`
+/// when the parameter is absent
 ///
 /// # Example
 /// ```moonbit_no_check
 /// let params = new_url_search_params("name=john&age=25&name=jane")
 /// let name = params.get("name")
-/// inspect(name, content="john")
+/// inspect(name, content="Some(\"john\")")
 ///
 /// let missing = params.get("email")
-/// inspect(missing, content="")
+/// inspect(missing, content="None")
 /// ```
-pub extern "js" fn URLSearchParams::get(
+extern "js" fn URLSearchParams::js_get(
   self : URLSearchParams,
   name : String,
-) -> String =
+) -> JsObscure =
   #| (self, name) => self.get(name)
+
+///|
+/// Gets the first value for `name`, or `None` when it is absent.
+pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
+  let value = self.js_get(name)
+  if value.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(value))
+  }
+}
 
 ///|
 /// Gets all values associated with the given parameter name.
@@ -100,11 +112,20 @@ pub extern "js" fn URLSearchParams::get(
 /// let ages = params.get_all("age")
 /// inspect(ages, content="[\"25\"]")
 /// ```
-pub extern "js" fn URLSearchParams::get_all(
+extern "js" fn URLSearchParams::js_get_all(
   self : URLSearchParams,
   name : String,
-) -> Array[String] =
+) -> FixedArray[String] =
   #| (self, name) => self.getAll(name)
+
+///|
+/// Gets all values for `name` as a MoonBit array.
+pub fn URLSearchParams::get_all(
+  self : URLSearchParams,
+  name : String,
+) -> Array[String] {
+  Array::from_fixed_array(self.js_get_all(name))
+}
 
 ///|
 /// Sets the value associated with a parameter name, replacing any existing values.

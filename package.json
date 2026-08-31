@@ -1,0 +1,16 @@
+{
+  "name": "dom-ffi.mbt",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "build:moon": "moon build --target js --debug",
+    "check": "moon check --target js",
+    "check:docs": "node scripts/verify-public-doc-comments.mjs",
+    "test": "moon test --target js",
+    "test:browser": "moon build --target js --debug && playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1"
+  },
+  "packageManager": "yarn@1.22.22"
+}
