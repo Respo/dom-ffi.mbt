@@ -300,11 +300,24 @@ pub extern "js" fn DragEvent::offset_y(self : DragEvent) -> Float =
   #| (self) => self.offsetY
 
 ///|
-/// | Returns the data being dragged, during a drag and drop operation.
+/// | Returns the data being dragged, or `None` when a synthetic drag event
+/// | has no associated drag data store.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/DragEvent/dataTransfer)
-pub extern "js" fn DragEvent::data_transfer(self : DragEvent) -> DataTransfer =
+extern "js" fn DragEvent::js_data_transfer(self : DragEvent) -> JsObscure =
   #| (self) => self.dataTransfer
+
+///|
+/// | Returns the drag data store, or `None` for a synthetic event without
+/// | one.
+pub fn DragEvent::data_transfer(self : DragEvent) -> DataTransfer? {
+  let data = self.js_data_transfer()
+  if data.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(data))
+  }
+}
 
 ///|
 #external

@@ -4,7 +4,7 @@
 pub(all) type Location
 
 ///|
-pub impl Show for Location with output(self : Location, logger : &Logger) -> Unit {
+pub impl Show for Location with fn output(self : Location, logger : &Logger) -> Unit {
   logger.write_string(js_to_string(v_to_js_obscure(self)))
 }
 

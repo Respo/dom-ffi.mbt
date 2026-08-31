@@ -6,20 +6,26 @@
 pub(all) type Node
 
 ///|
-/// | Returns a live `NodeList` of child nodes of the given `Node`.
+/// | Returns a snapshot array of the node's current child nodes.
+/// |
+/// | The browser exposes a live `NodeList`; this binding copies it with
+/// | `Array.from` so the result has the MoonBit `Array` runtime shape.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes)
 pub extern "js" fn Node::child_nodes(self : Node) -> Array[Node] =
-  #| (self) => self.childNodes
+  #| (self) => Array.from(self.childNodes)
 
 // children
 
 ///|
-/// | Returns a live `HTMLCollection` containing all of the `Element` children of the node upon which it was called.
+/// | Returns a snapshot array containing the node's current element children.
+/// |
+/// | The browser exposes a live `HTMLCollection`; this binding copies it
+/// | with `Array.from` so the result has the MoonBit `Array` runtime shape.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Element/children)
-pub extern "js" fn Node::children(self : Node) -> Array[Node] =
-  #| (self) => self.children
+pub extern "js" fn Node::children(self : Node) -> Array[Element] =
+  #| (self) => Array.from(self.children)
 
 ///|
 /// | Reinterprets a `Node` as an `Element`. This is a type cast and does not change the underlying object.
@@ -175,14 +181,26 @@ pub extern "js" fn Element::set_data_attribute(
   #| (self, name, value) => { self.dataset[name] = value }
 
 ///|
-/// | Gets the value of a custom data attribute (`data-*`).
+/// | Gets the value of a custom data attribute (`data-*`), or `None` when
+/// | the requested dataset key is absent.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset)
-pub extern "js" fn Element::data_attribute(
+extern "js" fn Element::js_data_attribute(
   self : Element,
   name : String,
-) -> String =
+) -> JsObscure =
   #| (self, name) => self.dataset[name]
+
+///|
+/// | Gets a custom dataset value, or `None` when the key is absent.
+pub fn Element::data_attribute(self : Element, name : String) -> String? {
+  let value = self.js_data_attribute(name)
+  if value.is_undefined() {
+    None
+  } else {
+    Some(js_obscure_to_v(value))
+  }
+}
 
 ///|
 /// | Removes a custom data attribute (`data-*`).
@@ -281,11 +299,23 @@ pub extern "js" fn Node::clone_node(self : Node, deep? : Bool = false) -> Node =
   #| (self, deep) => self.cloneNode(deep)
 
 ///|
-/// | Returns the `Document` object associated with the node.
+/// | Returns the `Document` associated with the node, or `None` for a
+/// | `Document` node whose `ownerDocument` Web IDL attribute is null.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Node/ownerDocument)
-pub extern "js" fn Node::owner_document(self : Node) -> Document =
+extern "js" fn Node::js_owner_document(self : Node) -> JsObscure =
   #| (self) => self.ownerDocument
+
+///|
+/// | Returns the node's owner document, or `None` for a document node.
+pub fn Node::owner_document(self : Node) -> Document? {
+  let document = self.js_owner_document()
+  if document.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(document))
+  }
+}
 
 ///|
 /// | Provides an interface for the HTML `<input>` element.
@@ -450,11 +480,23 @@ pub extern "js" fn HtmlTextAreaElement::set_value(
 // parent_element
 
 ///|
-/// | Returns the parent `Element` of the specified node in the DOM tree.
+/// | Returns the parent `Element` of the specified node, or `None` when
+/// | the node has no parent element.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Node/parentElement)
-pub extern "js" fn Node::parent_element(self : Node) -> Element =
+extern "js" fn Node::js_parent_element(self : Node) -> JsObscure =
   #| (self) => self.parentElement
+
+///|
+/// | Returns the node's parent element, or `None` when it has none.
+pub fn Node::parent_element(self : Node) -> Element? {
+  let parent = self.js_parent_element()
+  if parent.is_nil() {
+    None
+  } else {
+    Some(js_obscure_to_v(parent))
+  }
+}
 
 ///|
 /// | Reinterprets an `Element` as an `HtmlTextAreaElement`.

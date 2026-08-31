@@ -24,6 +24,11 @@ pub extern "js" fn type_of(v : JsObscure) -> String =
 ///|
 /// | Checks if the value is `null`.
 pub extern "js" fn JsObscure::is_nil(self : JsObscure) -> Bool =
+  #| (self) => self === null
+
+///|
+/// | Checks if the value is either JavaScript `null` or `undefined`.
+pub extern "js" fn JsObscure::is_nullish(self : JsObscure) -> Bool =
   #| (self) => self == null
 
 ///|
@@ -37,9 +42,9 @@ pub extern "js" fn JsObscure::is_function(self : JsObscure) -> Bool =
   #| (self) => typeof self === 'function'
 
 ///|
-/// | Checks if the value is an object.
+/// | Checks if the value is a non-null JavaScript object.
 pub extern "js" fn JsObscure::is_object(self : JsObscure) -> Bool =
-  #| (self) => typeof self === 'object'
+  #| (self) => self !== null && typeof self === 'object'
 
 ///|
 /// | Checks if the value is a string.
@@ -104,12 +109,12 @@ pub extern "js" fn JsObscure::is_set(self : JsObscure) -> Bool =
 ///|
 /// | Checks if the value is a TypedArray.
 pub extern "js" fn JsObscure::is_typed_array(self : JsObscure) -> Bool =
-  #| (self) => self instanceof Int8Array || self instanceof Uint8Array || self instanceof Uint8ClampedArray || self instanceof Int16Array || self instanceof Uint16Array || self instanceof Int32Array || self instanceof Uint32Array || self instanceof Float32Array || self instanceof Float64Array
+  #| (self) => ArrayBuffer.isView(self) && !(self instanceof DataView)
 
 ///|
 /// | Checks if the value is an `arguments` object.
 pub extern "js" fn JsObscure::is_arguments(self : JsObscure) -> Bool =
-  #| (self) => self instanceof Arguments
+  #| (self) => Object.prototype.toString.call(self) === '[object Arguments]'
 
 // get and set object
 

@@ -1,4 +1,0 @@
-{
-  "is-main": true,
-  "import": [{ "path": "tiye/dom-ffi", "alias": "dom_ffi" }]
-}

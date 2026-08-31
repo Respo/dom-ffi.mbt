@@ -1,0 +1,353 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "tiye/dom-ffi"
+
+// Values
+pub fn before_unload_event() -> BeforeUnloadEvent
+
+pub fn cancel_animation_frame(Int) -> Unit
+
+pub fn clear_interval(Int) -> Unit
+
+pub fn clear_timeout(Int) -> Unit
+
+pub fn debugger() -> Unit
+
+pub fn document_get_element_by_id(String) -> Element?
+
+pub fn document_query_selector(String) -> Element?
+
+pub fn document_query_selector_all(String) -> Array[Element]
+
+pub fn error_log(String) -> Unit
+
+pub fn eval_js_code(String) -> JsObscure
+
+pub fn inject_style(String, String) -> Unit
+
+pub fn[T] js_obscure_to_v(JsObscure) -> T
+
+pub fn log(String) -> Unit
+
+pub fn new_url_search_params(String) -> URLSearchParams
+
+pub fn remove_style(String) -> Unit
+
+pub fn request_animation_frame((Float) -> Unit) -> Int
+
+pub fn set_interval(() -> Unit, UInt) -> Int
+
+pub fn set_timeout(() -> Unit, UInt) -> Int
+
+pub fn type_of(JsObscure) -> String
+
+pub fn[T] v_to_js_obscure(T) -> JsObscure
+
+pub fn warn_log(String) -> Unit
+
+pub fn window() -> Window
+
+// Errors
+
+// Types and methods
+#external
+pub(all) type BeforeUnloadEvent
+
+#external
+pub type BlurEvent
+
+#external
+pub(all) type CSSStyleDeclaration
+pub fn CSSStyleDeclaration::remove_property(Self, String) -> Unit
+pub fn CSSStyleDeclaration::set_property(Self, String, String) -> Unit
+
+#external
+pub type DataTransfer
+pub fn DataTransfer::clear_data(Self) -> Unit
+pub fn DataTransfer::get_data(Self, String) -> String
+pub fn DataTransfer::set_data(Self, String, String) -> Unit
+pub fn DataTransfer::set_drop_effect(Self, String) -> Unit
+pub fn DataTransfer::set_effect_allowed(Self, String) -> Unit
+
+#external
+pub(all) type Document
+pub fn Document::body(Self) -> Element?
+pub fn Document::create_element(Self, String) -> Element
+pub fn Document::get_element_by_id(Self, String) -> Element?
+pub fn Document::head(Self) -> Element?
+pub fn Document::query_selector(Self, String) -> Element?
+pub fn Document::query_selector_all(Self, String) -> Array[Element]
+
+pub(all) struct DomRect {
+  x : Float
+  y : Float
+  width : Float
+  height : Float
+  top : Float
+  right : Float
+  bottom : Float
+  left : Float
+}
+
+#external
+pub type DragEvent
+pub fn DragEvent::client_x(Self) -> Float
+pub fn DragEvent::client_y(Self) -> Float
+pub fn DragEvent::data_transfer(Self) -> DataTransfer?
+pub fn DragEvent::offset_x(Self) -> Float
+pub fn DragEvent::offset_y(Self) -> Float
+pub fn DragEvent::page_x(Self) -> Float
+pub fn DragEvent::page_y(Self) -> Float
+pub fn DragEvent::prevent_default(Self) -> Unit
+pub fn DragEvent::stop_propagation(Self) -> Unit
+
+#external
+pub(all) type Element
+pub fn Element::append_child(Self, Node) -> Unit
+pub fn Element::data_attribute(Self, String) -> String?
+pub fn Element::focus(Self) -> Unit
+pub fn Element::get_bounding_client_rect(Self) -> DomRect
+pub fn Element::js_query_selector(Self, String) -> JsObscure
+pub fn Element::query_selector(Self, String) -> Self?
+pub fn Element::reinterpret_as_html_input_element(Self) -> HtmlInputElement
+pub fn Element::reinterpret_as_html_textarea_element(Self) -> HtmlTextAreaElement
+pub fn Element::reinterpret_as_node(Self) -> Node
+pub fn Element::remove_attribute(Self, String) -> Unit
+pub fn Element::remove_data_attribute(Self, String) -> Unit
+pub fn Element::set_attribute(Self, String, String) -> Unit
+pub fn Element::set_data_attribute(Self, String, String) -> Unit
+pub fn Element::set_html_for(Self, String) -> Unit
+pub fn Element::set_inner_html(Self, String) -> Unit
+pub fn Element::set_inner_text(Self, String) -> Unit
+pub fn Element::set_onclick(Self, (MouseEvent) -> Unit) -> Unit
+pub fn Element::set_ondblclick(Self, (MouseEvent) -> Unit) -> Unit
+pub fn Element::set_ondrag(Self, (DragEvent) -> Unit) -> Unit
+pub fn Element::set_ondragend(Self, (DragEvent) -> Unit) -> Unit
+pub fn Element::set_ondragenter(Self, (DragEvent) -> Unit) -> Unit
+pub fn Element::set_ondragleave(Self, (DragEvent) -> Unit) -> Unit
+pub fn Element::set_ondragover(Self, (DragEvent) -> Unit) -> Unit
+pub fn Element::set_ondragstart(Self, (DragEvent) -> Unit) -> Unit
+pub fn Element::set_ondrop(Self, (DragEvent) -> Unit) -> Unit
+pub fn Element::tag_name(Self) -> String
+pub fn Element::to_js_object(Self) -> JsObjectObscure
+pub fn Element::unset_onclick(Self) -> Unit
+pub fn Element::unset_ondblclick(Self) -> Unit
+pub fn Element::unset_ondrag(Self) -> Unit
+pub fn Element::unset_ondragend(Self) -> Unit
+pub fn Element::unset_ondragenter(Self) -> Unit
+pub fn Element::unset_ondragleave(Self) -> Unit
+pub fn Element::unset_ondragover(Self) -> Unit
+pub fn Element::unset_ondragstart(Self) -> Unit
+pub fn Element::unset_ondrop(Self) -> Unit
+
+#external
+pub type FocusEvent
+
+#external
+pub(all) type HtmlInputElement
+pub fn HtmlInputElement::set_onblur(Self, ((BlurEvent) -> Unit)?) -> Unit
+pub fn HtmlInputElement::set_onchange(Self, ((InputEvent) -> Unit)?) -> Unit
+pub fn HtmlInputElement::set_onfocus(Self, ((FocusEvent) -> Unit)?) -> Unit
+pub fn HtmlInputElement::set_oninput(Self, (InputEvent) -> Unit) -> Unit
+pub fn HtmlInputElement::set_onkeydown(Self, ((KeyboardEvent) -> Unit)?) -> Unit
+pub fn HtmlInputElement::set_onkeypress(Self, ((KeyboardEvent) -> Unit)?) -> Unit
+pub fn HtmlInputElement::set_onkeyup(Self, ((KeyboardEvent) -> Unit)?) -> Unit
+pub fn HtmlInputElement::set_value(Self, String) -> Unit
+pub fn HtmlInputElement::unset_oninput(Self) -> Unit
+pub fn HtmlInputElement::value(Self) -> String
+
+#external
+pub(all) type HtmlTextAreaElement
+pub fn HtmlTextAreaElement::set_onblur(Self, ((BlurEvent) -> Unit)?) -> Unit
+pub fn HtmlTextAreaElement::set_onchange(Self, ((InputEvent) -> Unit)?) -> Unit
+pub fn HtmlTextAreaElement::set_onfocus(Self, ((FocusEvent) -> Unit)?) -> Unit
+pub fn HtmlTextAreaElement::set_oninput(Self, ((InputEvent) -> Unit)?) -> Unit
+pub fn HtmlTextAreaElement::set_onkeydown(Self, ((KeyboardEvent) -> Unit)?) -> Unit
+pub fn HtmlTextAreaElement::set_onkeypress(Self, ((KeyboardEvent) -> Unit)?) -> Unit
+pub fn HtmlTextAreaElement::set_onkeyup(Self, ((KeyboardEvent) -> Unit)?) -> Unit
+pub fn HtmlTextAreaElement::set_value(Self, String) -> Unit
+pub fn HtmlTextAreaElement::value(Self) -> String
+
+#external
+pub type InputEvent
+pub fn InputEvent::target(Self) -> Element
+
+#external
+pub type JsFnObscure
+pub fn[T] JsFnObscure::from(T) -> Self
+pub fn JsFnObscure::to_obscure(Self) -> JsObscure
+
+#external
+pub type JsObjectObscure
+pub fn JsObjectObscure::call_method_args(Self, String, Array[JsObscure]) -> JsObscure
+pub fn JsObjectObscure::delete(Self, String) -> Bool
+pub fn JsObjectObscure::entries(Self) -> Array[JsObscure]
+pub fn JsObjectObscure::get(Self, String) -> JsObscure
+pub fn JsObjectObscure::has(Self, String) -> Bool
+pub fn JsObjectObscure::keys(Self) -> Array[JsObscure]
+pub fn JsObjectObscure::new() -> Self
+pub fn JsObjectObscure::set(Self, String, JsObscure) -> Unit
+pub fn JsObjectObscure::size(Self) -> Int
+pub fn JsObjectObscure::to_js_obscure(Self) -> JsObscure
+pub fn JsObjectObscure::values(Self) -> Array[JsObscure]
+
+#external
+pub type JsObscure
+pub fn JsObscure::from_array(Array[Self]) -> Self
+pub fn JsObscure::from_bool(Bool) -> Self
+pub fn JsObscure::from_float(Float) -> Self
+pub fn JsObscure::from_number(Int) -> Self
+pub fn JsObscure::from_string(String) -> Self
+pub fn JsObscure::get(Self, String) -> Self
+pub fn JsObscure::is_arguments(Self) -> Bool
+pub fn JsObscure::is_array(Self) -> Bool
+pub fn JsObscure::is_boolean(Self) -> Bool
+pub fn JsObscure::is_date(Self) -> Bool
+pub fn JsObscure::is_error(Self) -> Bool
+pub fn JsObscure::is_function(Self) -> Bool
+pub fn JsObscure::is_map(Self) -> Bool
+pub fn JsObscure::is_nil(Self) -> Bool
+pub fn JsObscure::is_nullish(Self) -> Bool
+pub fn JsObscure::is_number(Self) -> Bool
+pub fn JsObscure::is_object(Self) -> Bool
+pub fn JsObscure::is_regexp(Self) -> Bool
+pub fn JsObscure::is_set(Self) -> Bool
+pub fn JsObscure::is_string(Self) -> Bool
+pub fn JsObscure::is_symbol(Self) -> Bool
+pub fn JsObscure::is_typed_array(Self) -> Bool
+pub fn JsObscure::is_undefined(Self) -> Bool
+pub fn JsObscure::is_weakmap(Self) -> Bool
+pub fn JsObscure::is_weakset(Self) -> Bool
+pub fn JsObscure::null() -> Self
+pub fn JsObscure::set(Self, String, Self) -> Unit
+pub fn JsObscure::undefined() -> Self
+
+#external
+pub(all) type JsPromise
+pub fn JsPromise::catch_(Self, (JsObscure) -> JsObscure) -> Self
+pub fn JsPromise::new(((JsObscure) -> Unit, (JsObscure) -> Unit)) -> Self
+pub fn JsPromise::reject(JsObscure) -> Self
+pub fn JsPromise::resolve(JsObscure) -> Self
+pub fn JsPromise::then(Self, (JsObscure) -> JsObscure) -> Self
+pub impl Show for JsPromise
+
+#external
+pub type KeyboardEvent
+pub fn KeyboardEvent::alt_key(Self) -> Bool
+pub fn KeyboardEvent::char_code(Self) -> UInt
+pub fn KeyboardEvent::code(Self) -> String
+pub fn KeyboardEvent::ctrl_key(Self) -> Bool
+pub fn KeyboardEvent::key(Self) -> String
+pub fn KeyboardEvent::key_code(Self) -> UInt
+pub fn KeyboardEvent::location(Self) -> UInt
+pub fn KeyboardEvent::meta_key(Self) -> Bool
+pub fn KeyboardEvent::new_with_init_dict(String, KeyboardEventInit) -> Self
+pub fn KeyboardEvent::prevent_default(Self) -> Unit
+pub fn KeyboardEvent::repeat(Self) -> Bool
+pub fn KeyboardEvent::set_repeat(Self, Bool) -> Unit
+pub fn KeyboardEvent::shift_key(Self) -> Bool
+pub fn KeyboardEvent::stop_propagation(Self) -> Unit
+pub fn KeyboardEvent::type_(Self) -> String
+pub fn KeyboardEvent::view(Self) -> Window
+
+#external
+pub type KeyboardEventInit
+pub fn KeyboardEventInit::new() -> Self
+pub fn KeyboardEventInit::set_char_code(Self, UInt) -> Unit
+pub fn KeyboardEventInit::set_code(Self, String) -> Unit
+pub fn KeyboardEventInit::set_key(Self, String) -> Unit
+pub fn KeyboardEventInit::set_key_code(Self, UInt) -> Unit
+pub fn KeyboardEventInit::set_location(Self, UInt) -> Unit
+pub fn KeyboardEventInit::set_view(Self, Window) -> Unit
+
+#external
+pub(all) type LocalStorage
+pub fn LocalStorage::get_item(Self, String) -> String?
+pub fn LocalStorage::remove_item(Self, String) -> Unit
+pub fn LocalStorage::set_item(Self, String, String) -> Unit
+
+#external
+pub(all) type Location
+pub fn Location::assign(Self, String) -> Unit
+pub fn Location::hash(Self) -> String
+pub fn Location::host(Self) -> String
+pub fn Location::hostname(Self) -> String
+pub fn Location::href(Self) -> String
+pub fn Location::origin(Self) -> String
+pub fn Location::pathname(Self) -> String
+pub fn Location::port(Self) -> String
+pub fn Location::protocol(Self) -> String
+pub fn Location::reload(Self) -> Unit
+pub fn Location::replace(Self, String) -> Unit
+pub fn Location::search(Self) -> String
+pub fn Location::set_href(Self, String) -> Unit
+pub fn Location::to_string(Self) -> String
+pub impl Show for Location
+
+#external
+pub type MouseEvent
+pub fn MouseEvent::client_x(Self) -> Float
+pub fn MouseEvent::client_y(Self) -> Float
+pub fn MouseEvent::offset_x(Self) -> Float
+pub fn MouseEvent::offset_y(Self) -> Float
+pub fn MouseEvent::page_x(Self) -> Float
+pub fn MouseEvent::page_y(Self) -> Float
+pub fn MouseEvent::prevent_default(Self) -> Unit
+pub fn MouseEvent::stop_propagation(Self) -> Unit
+
+#external
+pub(all) type Navigator
+
+#external
+pub(all) type Node
+pub fn Node::append_child(Self, Self) -> Unit
+pub fn Node::child_nodes(Self) -> Array[Self]
+pub fn Node::children(Self) -> Array[Element]
+pub fn Node::clone_node(Self, deep? : Bool) -> Self
+pub fn Node::dispatch_event(Self, KeyboardEvent) -> Bool
+pub fn Node::first_child(Self) -> Self?
+pub fn Node::insert_before(Self, Self, Self?) -> Unit
+pub fn Node::owner_document(Self) -> Document?
+pub fn Node::parent_element(Self) -> Element?
+pub fn Node::reinterpret_as_element(Self) -> Element
+pub fn Node::remove(Self) -> Unit
+pub fn Node::remove_child(Self, Self) -> Unit
+pub fn Node::style(Self) -> CSSStyleDeclaration
+pub fn Node::to_js_object(Self) -> JsObjectObscure
+
+#external
+pub(all) type Performance
+pub fn Performance::now(Self) -> Float
+pub impl Show for Performance
+
+type URLSearchParams
+pub fn URLSearchParams::append(Self, String, String) -> Unit
+pub fn URLSearchParams::delete(Self, String) -> Unit
+pub fn URLSearchParams::get(Self, String) -> String?
+pub fn URLSearchParams::get_all(Self, String) -> Array[String]
+pub fn URLSearchParams::has(Self, String) -> Bool
+pub fn URLSearchParams::set(Self, String, String) -> Unit
+pub fn URLSearchParams::to_string(Self) -> String
+pub impl Show for URLSearchParams
+
+#external
+pub(all) type Window
+pub fn Window::add_event_listener_with_callback(Self, String, JsFnObscure) -> Unit
+pub fn Window::cancel_animation_frame(Self, Int) -> Unit
+pub fn Window::clear_interval(Self, Int) -> Unit
+pub fn Window::clear_timeout(Self, Int) -> Unit
+pub fn Window::document(Self) -> Document
+pub fn Window::keyboard_event_init(Self, String) -> KeyboardEventInit
+pub fn Window::local_storage(Self) -> LocalStorage
+pub fn Window::location(Self) -> Location
+pub fn Window::performance(Self) -> Performance
+pub fn Window::remove_event_listener_with_callback(Self, String, JsFnObscure) -> Unit
+pub fn Window::request_animation_frame(Self, (Float) -> Unit) -> Int
+pub fn Window::set_interval(Self, () -> Unit, UInt) -> Int
+pub fn Window::set_onbeforeunload(Self, (BeforeUnloadEvent) -> Unit) -> Unit
+pub fn Window::set_timeout(Self, () -> Unit, UInt) -> Int
+pub fn Window::to_js_object(Self) -> JsObjectObscure
+
+// Type aliases
+
+// Traits
+

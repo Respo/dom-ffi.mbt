@@ -5,7 +5,10 @@
 pub(all) type Performance
 
 ///|
-pub impl Show for Performance with output(self : Performance, logger : &Logger) -> Unit {
+pub impl Show for Performance with fn output(
+  self : Performance,
+  logger : &Logger,
+) -> Unit {
   logger.write_string(js_to_string(v_to_js_obscure(self)))
 }
 
