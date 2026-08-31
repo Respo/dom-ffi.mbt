@@ -76,6 +76,17 @@ extern "js" fn recorded_current_target_matches() -> Bool =
   #| () => globalThis.__domFfiEventListener.currentTargetMatches
 
 ///|
+extern "js" fn event_listener_option_enabled(
+  options : @dom_ffi.EventListenerOptions,
+  name : String,
+) -> Bool =
+  #| (options, name) => options[name] === true
+
+///|
+extern "js" fn attempt_event_prevent_default(event : @dom_ffi.Event) -> Unit =
+  #| (event) => event.preventDefault()
+
+///|
 fn main {
   begin_conformance_report()
   let doc = @dom_ffi.window().document()
@@ -253,5 +264,83 @@ fn main {
   browser_assert(
     "Canceled Event dispatch returns false",
     !event_target.dispatch_event(event),
+  )
+  let listener_options = @dom_ffi.EventListenerOptions::new()
+  listener_options.set_capture(true)
+  listener_options.set_once(true)
+  listener_options.set_passive(true)
+  browser_assert(
+    "Event listener options preserve capture",
+    event_listener_option_enabled(listener_options, "capture"),
+  )
+  browser_assert(
+    "Event listener options preserve once",
+    event_listener_option_enabled(listener_options, "once"),
+  )
+  browser_assert(
+    "Event listener options preserve passive",
+    event_listener_option_enabled(listener_options, "passive"),
+  )
+  let once_target = @dom_ffi.EventTarget::new()
+  reset_event_listener(once_target)
+  let once_options = @dom_ffi.EventListenerOptions::new()
+  once_options.set_once(true)
+  once_target.add_event_listener_with_options(
+    "once", record_event, once_options,
+  )
+  browser_assert(
+    "Once listener dispatch succeeds",
+    once_target.dispatch_event(@dom_ffi.Event::new("once")),
+  )
+  browser_assert("Once listener runs once", recorded_event_count() == 1)
+  browser_assert(
+    "Once listener is removed after its first invocation",
+    once_target.dispatch_event(@dom_ffi.Event::new("once")) &&
+    recorded_event_count() == 1,
+  )
+  let capture_target = body.reinterpret_as_event_target()
+  reset_event_listener(capture_target)
+  let capture_options = @dom_ffi.EventListenerOptions::new()
+  capture_options.set_capture(true)
+  capture_target.add_event_listener_with_options(
+    "capture", record_event, capture_options,
+  )
+  browser_assert(
+    "Capture listener dispatch succeeds",
+    fixture
+    .reinterpret_as_event_target()
+    .dispatch_event(@dom_ffi.Event::new_with_options("capture", bubbles=true)),
+  )
+  browser_assert(
+    "Capture listener receives the event in its phase",
+    recorded_event_count() == 1 && recorded_current_target_matches(),
+  )
+  capture_target.remove_event_listener_with_options(
+    "capture", record_event, capture_options,
+  )
+  browser_assert(
+    "Capture listener removal matches its capture setting",
+    fixture
+    .reinterpret_as_event_target()
+    .dispatch_event(@dom_ffi.Event::new_with_options("capture", bubbles=true)) &&
+    recorded_event_count() == 1,
+  )
+  let passive_target = @dom_ffi.EventTarget::new()
+  let passive_options = @dom_ffi.EventListenerOptions::new()
+  passive_options.set_passive(true)
+  passive_target.add_event_listener_with_options(
+    "passive", attempt_event_prevent_default, passive_options,
+  )
+  let passive_event = @dom_ffi.Event::new_with_options(
+    "passive",
+    cancelable=true,
+  )
+  browser_assert(
+    "Passive listener dispatch remains uncanceled",
+    passive_target.dispatch_event(passive_event),
+  )
+  browser_assert(
+    "Passive listener cannot prevent the default action",
+    !passive_event.default_prevented(),
   )
 }

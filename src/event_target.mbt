@@ -25,6 +25,20 @@ pub extern "js" fn EventTarget::add_event_listener(
   #| (self, type_, listener) => self.addEventListener(type_, listener)
 
 ///|
+/// | Adds a listener with explicit capture, once, and passive options.
+/// |
+/// | Keep the same callback and capture setting to remove this listener later.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#options)
+pub extern "js" fn EventTarget::add_event_listener_with_options(
+  self : EventTarget,
+  type_ : String,
+  listener : (Event) -> Unit,
+  options : EventListenerOptions,
+) -> Unit =
+  #| (self, type_, listener, options) => self.addEventListener(type_, listener, options)
+
+///|
 /// | Removes a listener previously added with the same event type and callback.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener)
@@ -36,6 +50,21 @@ pub extern "js" fn EventTarget::remove_event_listener(
   #| (self, type_, listener) => self.removeEventListener(type_, listener)
 
 ///|
+/// | Removes a listener added with `add_event_listener_with_options`.
+/// |
+/// | Only the capture option participates in listener matching; nevertheless,
+/// | passing the same options object makes that requirement explicit.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener#matching_event_listeners_for_removal)
+pub extern "js" fn EventTarget::remove_event_listener_with_options(
+  self : EventTarget,
+  type_ : String,
+  listener : (Event) -> Unit,
+  options : EventListenerOptions,
+) -> Unit =
+  #| (self, type_, listener, options) => self.removeEventListener(type_, listener, options)
+
+///|
 /// | Dispatches an event and returns `false` when a listener cancels a
 /// | cancelable event.
 /// |
@@ -45,6 +74,52 @@ pub extern "js" fn EventTarget::dispatch_event(
   event : Event,
 ) -> Bool =
   #| (self, event) => self.dispatchEvent(event)
+
+///|
+/// | Options for an event listener registration.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#options)
+#external
+pub type EventListenerOptions
+
+///|
+/// | Creates listener options with browser defaults: bubbling phase, reusable,
+/// | and non-passive.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#options)
+pub extern "js" fn EventListenerOptions::new() -> EventListenerOptions =
+  #| () => ({})
+
+///|
+/// | Selects the capture phase for this listener.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#capture)
+pub extern "js" fn EventListenerOptions::set_capture(
+  self : EventListenerOptions,
+  capture : Bool,
+) -> Unit =
+  #| (self, capture) => { self.capture = capture }
+
+///|
+/// | Removes this listener automatically after its first invocation.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#once)
+pub extern "js" fn EventListenerOptions::set_once(
+  self : EventListenerOptions,
+  once : Bool,
+) -> Unit =
+  #| (self, once) => { self.once = once }
+
+///|
+/// | Declares that this listener will not cancel its event with
+/// | `prevent_default`.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#passive)
+pub extern "js" fn EventListenerOptions::set_passive(
+  self : EventListenerOptions,
+  passive : Bool,
+) -> Unit =
+  #| (self, passive) => { self.passive = passive }
 
 ///|
 /// | A generic browser event.
