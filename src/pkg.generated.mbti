@@ -155,11 +155,20 @@ pub fn Event::target(Self) -> EventTarget?
 pub fn Event::type_(Self) -> String
 
 #external
+pub type EventListenerOptions
+pub fn EventListenerOptions::new() -> Self
+pub fn EventListenerOptions::set_capture(Self, Bool) -> Unit
+pub fn EventListenerOptions::set_once(Self, Bool) -> Unit
+pub fn EventListenerOptions::set_passive(Self, Bool) -> Unit
+
+#external
 pub type EventTarget
 pub fn EventTarget::add_event_listener(Self, String, (Event) -> Unit) -> Unit
+pub fn EventTarget::add_event_listener_with_options(Self, String, (Event) -> Unit, EventListenerOptions) -> Unit
 pub fn EventTarget::dispatch_event(Self, Event) -> Bool
 pub fn EventTarget::new() -> Self
 pub fn EventTarget::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
+pub fn EventTarget::remove_event_listener_with_options(Self, String, (Event) -> Unit, EventListenerOptions) -> Unit
 
 #external
 pub type FocusEvent
