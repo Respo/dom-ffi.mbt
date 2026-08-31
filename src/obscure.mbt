@@ -166,24 +166,42 @@ pub extern "js" fn JsObjectObscure::new() -> JsObjectObscure =
 
 ///|
 /// | Returns an array of a given object's own enumerable property names.
-pub extern "js" fn JsObjectObscure::keys(
+extern "js" fn JsObjectObscure::js_keys(
   self : JsObjectObscure,
-) -> Array[JsObscure] =
+) -> FixedArray[JsObscure] =
   #| (self) => Object.keys(self)
 
 ///|
+/// | Returns the object's own enumerable property names as a MoonBit array.
+pub fn JsObjectObscure::keys(self : JsObjectObscure) -> Array[JsObscure] {
+  Array::from_fixed_array(self.js_keys())
+}
+
+///|
 /// | Returns an array of a given object's own enumerable property values.
-pub extern "js" fn JsObjectObscure::values(
+extern "js" fn JsObjectObscure::js_values(
   self : JsObjectObscure,
-) -> Array[JsObscure] =
+) -> FixedArray[JsObscure] =
   #| (self) => Object.values(self)
 
 ///|
+/// | Returns the object's own enumerable property values as a MoonBit array.
+pub fn JsObjectObscure::values(self : JsObjectObscure) -> Array[JsObscure] {
+  Array::from_fixed_array(self.js_values())
+}
+
+///|
 /// | Returns an array of a given object's own enumerable string-keyed property `[key, value]` pairs.
-pub extern "js" fn JsObjectObscure::entries(
+extern "js" fn JsObjectObscure::js_entries(
   self : JsObjectObscure,
-) -> Array[JsObscure] =
+) -> FixedArray[JsObscure] =
   #| (self) => Object.entries(self)
+
+///|
+/// | Returns enumerable `[key, value]` entries as a MoonBit array.
+pub fn JsObjectObscure::entries(self : JsObjectObscure) -> Array[JsObscure] {
+  Array::from_fixed_array(self.js_entries())
+}
 
 // get/set
 
@@ -231,12 +249,22 @@ pub fn JsObjectObscure::to_js_obscure(self : JsObjectObscure) -> JsObscure = "%i
 
 ///|
 /// Call method with arguments
-pub extern "js" fn JsObjectObscure::call_method_args(
+extern "js" fn JsObjectObscure::js_call_method_args(
+  self : Self,
+  method_ : String,
+  args : FixedArray[JsObscure],
+) -> JsObscure =
+  #| (self, method_, args) => self[method_](...args)
+
+///|
+/// Calls a named JavaScript method with MoonBit array arguments.
+pub fn JsObjectObscure::call_method_args(
   self : Self,
   method_ : String,
   args : Array[JsObscure],
-) -> JsObscure =
-  #| (self, method_, args) => self[method_](...args)
+) -> JsObscure {
+  self.js_call_method_args(method_, FixedArray::from_array(args[:]))
+}
 
 ///|
 /// | Evaluates JavaScript code and returns the result.

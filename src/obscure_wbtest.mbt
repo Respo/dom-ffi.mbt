@@ -19,6 +19,14 @@ extern "js" fn test_data_view() -> JsObscure =
   #| () => new DataView(new ArrayBuffer(8))
 
 ///|
+extern "js" fn test_method_object() -> JsObjectObscure =
+  #| () => ({
+  #|   first: 1,
+  #|   second: 2,
+  #|   sum(...values) { return values.reduce((total, value) => total + value, 0); },
+  #| })
+
+///|
 test "null, undefined, and object predicates stay distinct" {
   inspect(JsObscure::null().is_nil(), content="true")
   inspect(JsObscure::undefined().is_nil(), content="false")
@@ -51,4 +59,19 @@ test "array and object predicates match JavaScript runtime categories" {
   inspect(array.is_array(), content="true")
   inspect(array.is_object(), content="true")
   inspect(test_plain_object().is_array(), content="false")
+}
+
+///|
+test "object collection and method wrappers preserve MoonBit Array contracts" {
+  let object = test_method_object()
+  inspect(object.keys().length(), content="3")
+  inspect(object.values().length(), content="3")
+  inspect(object.entries().length(), content="3")
+  let total : Int = js_obscure_to_v(
+    object.call_method_args("sum", [
+      JsObscure::from_number(2),
+      JsObscure::from_number(3),
+    ]),
+  )
+  inspect(total, content="5")
 }

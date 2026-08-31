@@ -86,7 +86,7 @@ extern "js" fn js_query_selector(
 extern "js" fn js_query_selector_all(
   doc : Document,
   selector : String,
-) -> Array[JsObscure] =
+) -> FixedArray[JsObscure] =
   #| (doc, selector) => Array.from(doc.querySelectorAll(selector))
 
 ///|

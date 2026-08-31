@@ -142,6 +142,14 @@ fn main {
     "URLSearchParams missing value maps to None",
     params.get("missing") is None,
   )
+  browser_assert(
+    "URLSearchParams getAll returns a MoonBit Array",
+    params.get_all("phase") == ["verified"],
+  )
+  browser_assert(
+    "URLSearchParams getAll returns an empty Array",
+    params.get_all("missing").is_empty(),
+  )
   let style = fixture_node.style()
   style.set_property("background-color", "rgb(1, 2, 3)")
   browser_assert(

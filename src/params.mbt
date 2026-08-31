@@ -112,11 +112,20 @@ pub fn URLSearchParams::get(self : URLSearchParams, name : String) -> String? {
 /// let ages = params.get_all("age")
 /// inspect(ages, content="[\"25\"]")
 /// ```
-pub extern "js" fn URLSearchParams::get_all(
+extern "js" fn URLSearchParams::js_get_all(
   self : URLSearchParams,
   name : String,
-) -> Array[String] =
+) -> FixedArray[String] =
   #| (self, name) => self.getAll(name)
+
+///|
+/// Gets all values for `name` as a MoonBit array.
+pub fn URLSearchParams::get_all(
+  self : URLSearchParams,
+  name : String,
+) -> Array[String] {
+  Array::from_fixed_array(self.js_get_all(name))
+}
 
 ///|
 /// Sets the value associated with a parameter name, replacing any existing values.

@@ -12,8 +12,14 @@ pub(all) type Node
 /// | `Array.from` so the result has the MoonBit `Array` runtime shape.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Node/childNodes)
-pub extern "js" fn Node::child_nodes(self : Node) -> Array[Node] =
+extern "js" fn Node::js_child_nodes(self : Node) -> FixedArray[Node] =
   #| (self) => Array.from(self.childNodes)
+
+///|
+/// | Returns a snapshot MoonBit array of the node's current child nodes.
+pub fn Node::child_nodes(self : Node) -> Array[Node] {
+  Array::from_fixed_array(self.js_child_nodes())
+}
 
 // children
 
@@ -24,8 +30,14 @@ pub extern "js" fn Node::child_nodes(self : Node) -> Array[Node] =
 /// | with `Array.from` so the result has the MoonBit `Array` runtime shape.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Element/children)
-pub extern "js" fn Node::children(self : Node) -> Array[Element] =
+extern "js" fn Node::js_children(self : Node) -> FixedArray[Element] =
   #| (self) => Array.from(self.children)
+
+///|
+/// | Returns a snapshot MoonBit array of the node's current element children.
+pub fn Node::children(self : Node) -> Array[Element] {
+  Array::from_fixed_array(self.js_children())
+}
 
 ///|
 /// | Reinterprets a `Node` as an `Element`. This is a type cast and does not change the underlying object.
