@@ -38,6 +38,22 @@ extern "js" fn synthetic_drag_event() -> @dom_ffi.DragEvent =
   #| () => new DragEvent("drag")
 
 ///|
+extern "js" fn text_node(document : @dom_ffi.Document) -> @dom_ffi.Node =
+  #| (document) => document.createTextNode("text")
+
+///|
+extern "js" fn foreign_data_view() -> @dom_ffi.JsObscure =
+  #| () => {
+  #|   const iframe = document.createElement("iframe");
+  #|   iframe.style.display = "none";
+  #|   document.body.appendChild(iframe);
+  #|   const foreignWindow = iframe.contentWindow;
+  #|   const result = new foreignWindow.DataView(new foreignWindow.ArrayBuffer(8));
+  #|   iframe.remove();
+  #|   return result;
+  #| }
+
+///|
 fn main {
   begin_conformance_report()
   let doc = @dom_ffi.window().document()
@@ -57,6 +73,14 @@ fn main {
     "text<span class=\"dom-ffi-item\">one</span><span class=\"dom-ffi-item\">two</span>",
   )
   let fixture_node = fixture.reinterpret_as_node()
+  browser_assert(
+    "text node children is an empty Array",
+    text_node(doc).children().is_empty(),
+  )
+  browser_assert(
+    "cross-realm DataView is not a typed array",
+    !foreign_data_view().is_typed_array(),
+  )
   browser_assert(
     "detached node has no parent element",
     fixture_node.parent_element() is None,

@@ -28,10 +28,12 @@ pub fn Node::child_nodes(self : Node) -> Array[Node] {
 /// |
 /// | The browser exposes a live `HTMLCollection`; this binding copies it
 /// | with `Array.from` so the result has the MoonBit `Array` runtime shape.
+/// | Nodes that do not implement `ParentNode`, such as text nodes, return an
+/// | empty snapshot.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/Element/children)
 extern "js" fn Node::js_children(self : Node) -> FixedArray[Element] =
-  #| (self) => Array.from(self.children)
+  #| (self) => Array.from(self.children ?? [])
 
 ///|
 /// | Returns a snapshot MoonBit array of the node's current element children.

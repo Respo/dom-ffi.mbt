@@ -1,6 +1,6 @@
 {
   "name": "dom-ffi.mbt",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "private": true,
   "scripts": {
     "build:moon": "moon build --target js --debug",

@@ -109,7 +109,9 @@ pub extern "js" fn JsObscure::is_set(self : JsObscure) -> Bool =
 ///|
 /// | Checks if the value is a TypedArray.
 pub extern "js" fn JsObscure::is_typed_array(self : JsObscure) -> Bool =
-  #| (self) => ArrayBuffer.isView(self) && !(self instanceof DataView)
+  #| (self) =>
+  #|   ArrayBuffer.isView(self) &&
+  #|   Object.prototype.toString.call(self) !== "[object DataView]"
 
 ///|
 /// | Checks if the value is an `arguments` object.
