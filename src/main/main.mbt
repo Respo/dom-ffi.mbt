@@ -54,6 +54,28 @@ extern "js" fn foreign_data_view() -> @dom_ffi.JsObscure =
   #| }
 
 ///|
+extern "js" fn reset_event_listener(target : @dom_ffi.EventTarget) -> Unit =
+  #| (target) => {
+  #|   globalThis.__domFfiEventListener = { count: 0, target, currentTargetMatches: false };
+  #| }
+
+///|
+extern "js" fn record_event(event : @dom_ffi.Event) -> Unit =
+  #| (event) => {
+  #|   const listener = globalThis.__domFfiEventListener;
+  #|   listener.count += 1;
+  #|   listener.currentTargetMatches = event.currentTarget === listener.target;
+  #| }
+
+///|
+extern "js" fn recorded_event_count() -> Int =
+  #| () => globalThis.__domFfiEventListener.count
+
+///|
+extern "js" fn recorded_current_target_matches() -> Bool =
+  #| () => globalThis.__domFfiEventListener.currentTargetMatches
+
+///|
 fn main {
   begin_conformance_report()
   let doc = @dom_ffi.window().document()
@@ -184,5 +206,52 @@ fn main {
   browser_assert(
     "CSS removeProperty clears hyphenated names",
     style_property(fixture, "background-color") == "",
+  )
+  let event_target = @dom_ffi.EventTarget::new()
+  reset_event_listener(event_target)
+  event_target.add_event_listener("dom-ffi", record_event)
+  let event = @dom_ffi.Event::new_with_options(
+    "dom-ffi",
+    bubbles=true,
+    cancelable=true,
+  )
+  browser_assert("Event preserves its type", event.type_() == "dom-ffi")
+  browser_assert("Event preserves bubbles", event.bubbles())
+  browser_assert("Event preserves cancelable", event.cancelable())
+  browser_assert("Event target is None before dispatch", event.target() is None)
+  browser_assert(
+    "Event dispatch succeeds before cancellation",
+    event_target.dispatch_event(event),
+  )
+  browser_assert("Event listener runs once", recorded_event_count() == 1)
+  browser_assert(
+    "Event currentTarget matches the listener target",
+    recorded_current_target_matches(),
+  )
+  browser_assert(
+    "Event target preserves identity after dispatch",
+    js_identity(
+      @dom_ffi.v_to_js_obscure(event.target().unwrap()),
+      @dom_ffi.v_to_js_obscure(event_target),
+    ),
+  )
+  browser_assert(
+    "Event currentTarget is None outside dispatch",
+    event.current_target() is None,
+  )
+  event_target.remove_event_listener("dom-ffi", record_event)
+  browser_assert(
+    "Event listener removal preserves callback identity",
+    event_target.dispatch_event(@dom_ffi.Event::new("dom-ffi")) &&
+    recorded_event_count() == 1,
+  )
+  event.prevent_default()
+  browser_assert(
+    "Event preventDefault marks a cancelable event",
+    event.default_prevented(),
+  )
+  browser_assert(
+    "Canceled Event dispatch returns false",
+    !event_target.dispatch_event(event),
   )
 }

@@ -76,6 +76,7 @@ pub fn Document::get_element_by_id(Self, String) -> Element?
 pub fn Document::head(Self) -> Element?
 pub fn Document::query_selector(Self, String) -> Element?
 pub fn Document::query_selector_all(Self, String) -> Array[Element]
+pub fn Document::reinterpret_as_event_target(Self) -> EventTarget
 
 pub(all) struct DomRect {
   x : Float
@@ -108,6 +109,7 @@ pub fn Element::focus(Self) -> Unit
 pub fn Element::get_bounding_client_rect(Self) -> DomRect
 pub fn Element::js_query_selector(Self, String) -> JsObscure
 pub fn Element::query_selector(Self, String) -> Self?
+pub fn Element::reinterpret_as_event_target(Self) -> EventTarget
 pub fn Element::reinterpret_as_html_input_element(Self) -> HtmlInputElement
 pub fn Element::reinterpret_as_html_textarea_element(Self) -> HtmlTextAreaElement
 pub fn Element::reinterpret_as_node(Self) -> Node
@@ -138,6 +140,26 @@ pub fn Element::unset_ondragleave(Self) -> Unit
 pub fn Element::unset_ondragover(Self) -> Unit
 pub fn Element::unset_ondragstart(Self) -> Unit
 pub fn Element::unset_ondrop(Self) -> Unit
+
+#external
+pub type Event
+pub fn Event::bubbles(Self) -> Bool
+pub fn Event::cancelable(Self) -> Bool
+pub fn Event::current_target(Self) -> EventTarget?
+pub fn Event::default_prevented(Self) -> Bool
+pub fn Event::new(String) -> Self
+pub fn Event::new_with_options(String, bubbles? : Bool, cancelable? : Bool) -> Self
+pub fn Event::prevent_default(Self) -> Unit
+pub fn Event::stop_propagation(Self) -> Unit
+pub fn Event::target(Self) -> EventTarget?
+pub fn Event::type_(Self) -> String
+
+#external
+pub type EventTarget
+pub fn EventTarget::add_event_listener(Self, String, (Event) -> Unit) -> Unit
+pub fn EventTarget::dispatch_event(Self, Event) -> Bool
+pub fn EventTarget::new() -> Self
+pub fn EventTarget::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
 
 #external
 pub type FocusEvent
@@ -309,6 +331,7 @@ pub fn Node::insert_before(Self, Self, Self?) -> Unit
 pub fn Node::owner_document(Self) -> Document?
 pub fn Node::parent_element(Self) -> Element?
 pub fn Node::reinterpret_as_element(Self) -> Element
+pub fn Node::reinterpret_as_event_target(Self) -> EventTarget
 pub fn Node::remove(Self) -> Unit
 pub fn Node::remove_child(Self, Self) -> Unit
 pub fn Node::style(Self) -> CSSStyleDeclaration
@@ -340,6 +363,7 @@ pub fn Window::keyboard_event_init(Self, String) -> KeyboardEventInit
 pub fn Window::local_storage(Self) -> LocalStorage
 pub fn Window::location(Self) -> Location
 pub fn Window::performance(Self) -> Performance
+pub fn Window::reinterpret_as_event_target(Self) -> EventTarget
 pub fn Window::remove_event_listener_with_callback(Self, String, JsFnObscure) -> Unit
 pub fn Window::request_animation_frame(Self, (Float) -> Unit) -> Int
 pub fn Window::set_interval(Self, () -> Unit, UInt) -> Int
