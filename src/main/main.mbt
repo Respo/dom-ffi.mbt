@@ -87,6 +87,28 @@ extern "js" fn attempt_event_prevent_default(event : @dom_ffi.Event) -> Unit =
   #| (event) => event.preventDefault()
 
 ///|
+extern "js" fn file_input_with_files(
+  document : @dom_ffi.Document,
+) -> @dom_ffi.Element =
+  #| (document) => {
+  #|   const input = document.createElement("input");
+  #|   input.type = "file";
+  #|   const transfer = new DataTransfer();
+  #|   transfer.items.add(new File(["one"], "one.txt", { type: "text/plain" }));
+  #|   transfer.items.add(new File(["two"], "two.txt", { type: "text/plain" }));
+  #|   input.files = transfer.files;
+  #|   return input;
+  #| }
+
+///|
+extern "js" fn data_transfer_with_file() -> @dom_ffi.DataTransfer =
+  #| () => {
+  #|   const transfer = new DataTransfer();
+  #|   transfer.items.add(new File(["drop"], "drop.txt", { type: "text/plain" }));
+  #|   return transfer;
+  #| }
+
+///|
 fn main {
   begin_conformance_report()
   let doc = @dom_ffi.window().document()
@@ -393,5 +415,88 @@ fn main {
     @dom_ffi.EventTarget::new().dispatch_event(
       wheel_event.reinterpret_as_event(),
     ),
+  )
+  let blob = @dom_ffi.Blob::new_from_text("hello", type_="text/plain")
+  browser_assert("Blob preserves byte size", blob.size() == 5)
+  browser_assert("Blob preserves MIME type", blob.type_() == "text/plain")
+  let file = @dom_ffi.File::new_from_text(
+    "note.txt",
+    "hello",
+    type_="text/plain",
+  )
+  browser_assert("File preserves name", file.name() == "note.txt")
+  browser_assert("File preserves byte size", file.size() == 5)
+  browser_assert("File preserves MIME type", file.type_() == "text/plain")
+  browser_assert("File has a lastModified timestamp", file.last_modified() > 0)
+  let form_data = @dom_ffi.FormData::new()
+  form_data.append_text("tag", "first")
+  form_data.append_text("tag", "second")
+  browser_assert("FormData records a text key", form_data.has("tag"))
+  browser_assert(
+    "FormData get returns its first text value",
+    match form_data.get("tag") {
+      Some(Text("first")) => true
+      _ => false
+    },
+  )
+  browser_assert(
+    "FormData getAll preserves duplicate text values",
+    match form_data.get_all("tag") {
+      [Text("first"), Text("second")] => true
+      _ => false
+    },
+  )
+  form_data.set_text("tag", "replaced")
+  browser_assert(
+    "FormData set replaces duplicate text values",
+    match form_data.get_all("tag") {
+      [Text("replaced")] => true
+      _ => false
+    },
+  )
+  form_data.append_file("upload", file)
+  browser_assert(
+    "FormData get returns a typed file value",
+    match form_data.get("upload") {
+      Some(File(upload)) =>
+        upload.name() == "note.txt" && upload.type_() == "text/plain"
+      _ => false
+    },
+  )
+  form_data.delete("tag")
+  browser_assert("FormData delete removes every value", !form_data.has("tag"))
+  browser_assert(
+    "Missing FormData value maps to None",
+    form_data.get("tag") is None,
+  )
+  let checkbox = doc.create_element("input").reinterpret_as_html_input_element()
+  checkbox.set_checked(true)
+  browser_assert("HtmlInputElement preserves checked", checkbox.checked())
+  let file_input = file_input_with_files(doc).reinterpret_as_html_input_element()
+  browser_assert("File input files is Some", file_input.files() is Some(_))
+  let files = file_input.files().unwrap()
+  browser_assert("FileList preserves file count", files.length() == 2)
+  browser_assert(
+    "FileList item returns the requested file",
+    files.item(0).unwrap().name() == "one.txt",
+  )
+  browser_assert("FileList missing item maps to None", files.item(2) is None)
+  let file_snapshot = files.to_array()
+  browser_assert(
+    "FileList converts to a MoonBit Array",
+    file_snapshot.length() == 2,
+  )
+  browser_assert(
+    "FileList snapshot preserves file order",
+    file_snapshot[1].name() == "two.txt",
+  )
+  let dropped_files = data_transfer_with_file().files()
+  browser_assert(
+    "DataTransfer files exposes FileList",
+    dropped_files.length() == 1,
+  )
+  browser_assert(
+    "DataTransfer files preserves file metadata",
+    dropped_files.item(0).unwrap().name() == "drop.txt",
   )
 }
