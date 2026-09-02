@@ -53,6 +53,12 @@ pub fn window() -> Window
 pub(all) type BeforeUnloadEvent
 
 #external
+pub type Blob
+pub fn Blob::new_from_text(String, type_? : String) -> Self
+pub fn Blob::size(Self) -> Int
+pub fn Blob::type_(Self) -> String
+
+#external
 pub type BlurEvent
 
 #external
@@ -63,6 +69,7 @@ pub fn CSSStyleDeclaration::set_property(Self, String, String) -> Unit
 #external
 pub type DataTransfer
 pub fn DataTransfer::clear_data(Self) -> Unit
+pub fn DataTransfer::files(Self) -> FileList
 pub fn DataTransfer::get_data(Self, String) -> String
 pub fn DataTransfer::set_data(Self, String, String) -> Unit
 pub fn DataTransfer::set_drop_effect(Self, String) -> Unit
@@ -171,10 +178,44 @@ pub fn EventTarget::remove_event_listener(Self, String, (Event) -> Unit) -> Unit
 pub fn EventTarget::remove_event_listener_with_options(Self, String, (Event) -> Unit, EventListenerOptions) -> Unit
 
 #external
+pub type File
+pub fn File::last_modified(Self) -> Int
+pub fn File::name(Self) -> String
+pub fn File::new_from_text(String, String, type_? : String) -> Self
+pub fn File::size(Self) -> Int
+pub fn File::type_(Self) -> String
+
+#external
+pub type FileList
+pub fn FileList::item(Self, Int) -> File?
+pub fn FileList::length(Self) -> Int
+pub fn FileList::to_array(Self) -> Array[File]
+
+#external
 pub type FocusEvent
 
 #external
+pub type FormData
+pub fn FormData::append_file(Self, String, File) -> Unit
+pub fn FormData::append_text(Self, String, String) -> Unit
+pub fn FormData::delete(Self, String) -> Unit
+pub fn FormData::get(Self, String) -> FormDataValue?
+pub fn FormData::get_all(Self, String) -> Array[FormDataValue]
+pub fn FormData::has(Self, String) -> Bool
+pub fn FormData::new() -> Self
+pub fn FormData::set_file(Self, String, File) -> Unit
+pub fn FormData::set_text(Self, String, String) -> Unit
+
+pub enum FormDataValue {
+  Text(String)
+  File(File)
+}
+
+#external
 pub(all) type HtmlInputElement
+pub fn HtmlInputElement::checked(Self) -> Bool
+pub fn HtmlInputElement::files(Self) -> FileList?
+pub fn HtmlInputElement::set_checked(Self, Bool) -> Unit
 pub fn HtmlInputElement::set_onblur(Self, ((BlurEvent) -> Unit)?) -> Unit
 pub fn HtmlInputElement::set_onchange(Self, ((InputEvent) -> Unit)?) -> Unit
 pub fn HtmlInputElement::set_onfocus(Self, ((FocusEvent) -> Unit)?) -> Unit
