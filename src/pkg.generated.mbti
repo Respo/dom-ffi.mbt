@@ -351,6 +351,27 @@ pub(all) type Performance
 pub fn Performance::now(Self) -> Float
 pub impl Show for Performance
 
+#external
+pub type PointerEvent
+pub fn PointerEvent::button(Self) -> Int
+pub fn PointerEvent::buttons(Self) -> Int
+pub fn PointerEvent::client_x(Self) -> Float
+pub fn PointerEvent::client_y(Self) -> Float
+pub fn PointerEvent::new_with_init_dict(String, PointerEventInit) -> Self
+pub fn PointerEvent::pointer_id(Self) -> Int
+pub fn PointerEvent::pressure(Self) -> Float
+pub fn PointerEvent::reinterpret_as_event(Self) -> Event
+
+#external
+pub type PointerEventInit
+pub fn PointerEventInit::new() -> Self
+pub fn PointerEventInit::set_button(Self, Int) -> Unit
+pub fn PointerEventInit::set_buttons(Self, Int) -> Unit
+pub fn PointerEventInit::set_client_x(Self, Float) -> Unit
+pub fn PointerEventInit::set_client_y(Self, Float) -> Unit
+pub fn PointerEventInit::set_pointer_id(Self, Int) -> Unit
+pub fn PointerEventInit::set_pressure(Self, Float) -> Unit
+
 type URLSearchParams
 pub fn URLSearchParams::append(Self, String, String) -> Unit
 pub fn URLSearchParams::delete(Self, String) -> Unit
@@ -360,6 +381,21 @@ pub fn URLSearchParams::has(Self, String) -> Bool
 pub fn URLSearchParams::set(Self, String, String) -> Unit
 pub fn URLSearchParams::to_string(Self) -> String
 pub impl Show for URLSearchParams
+
+#external
+pub type WheelEvent
+pub fn WheelEvent::delta_mode(Self) -> Int
+pub fn WheelEvent::delta_x(Self) -> Float
+pub fn WheelEvent::delta_y(Self) -> Float
+pub fn WheelEvent::new_with_init_dict(String, WheelEventInit) -> Self
+pub fn WheelEvent::reinterpret_as_event(Self) -> Event
+
+#external
+pub type WheelEventInit
+pub fn WheelEventInit::new() -> Self
+pub fn WheelEventInit::set_delta_mode(Self, Int) -> Unit
+pub fn WheelEventInit::set_delta_x(Self, Float) -> Unit
+pub fn WheelEventInit::set_delta_y(Self, Float) -> Unit
 
 #external
 pub(all) type Window
