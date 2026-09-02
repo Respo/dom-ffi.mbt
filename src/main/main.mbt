@@ -109,6 +109,10 @@ extern "js" fn data_transfer_with_file() -> @dom_ffi.DataTransfer =
   #| }
 
 ///|
+extern "js" fn text_includes(text : String, part : String) -> Bool =
+  #| (text, part) => text.includes(part)
+
+///|
 fn main {
   begin_conformance_report()
   let doc = @dom_ffi.window().document()
@@ -498,5 +502,158 @@ fn main {
   browser_assert(
     "DataTransfer files preserves file metadata",
     dropped_files.item(0).unwrap().name() == "drop.txt",
+  )
+  browser_assert(
+    "Missing attribute maps to None",
+    fixture.get_attribute("role") is None,
+  )
+  fixture.set_attribute("role", "region")
+  browser_assert(
+    "getAttribute preserves a present value",
+    fixture.get_attribute("role") == Some("region"),
+  )
+  browser_assert(
+    "hasAttribute sees a present value",
+    fixture.has_attribute("role"),
+  )
+  browser_assert(
+    "toggleAttribute enables an absent attribute",
+    fixture.toggle_attribute("hidden"),
+  )
+  browser_assert(
+    "toggleAttribute records enabled state",
+    fixture.has_attribute("hidden"),
+  )
+  browser_assert(
+    "toggleAttribute force removes an attribute",
+    !fixture.toggle_attribute_with_force("hidden", false),
+  )
+  browser_assert(
+    "Removed attribute maps to None",
+    fixture.get_attribute("hidden") is None,
+  )
+  let class_list = fixture.class_list()
+  class_list.add("active")
+  browser_assert(
+    "classList add makes a token visible",
+    class_list.contains("active"),
+  )
+  browser_assert(
+    "classList toggle adds an absent token",
+    class_list.toggle("badge"),
+  )
+  browser_assert(
+    "classList toggle token is present",
+    class_list.contains("badge"),
+  )
+  browser_assert(
+    "classList toggle removes a present token",
+    !class_list.toggle("badge"),
+  )
+  browser_assert(
+    "classList removes the toggled token",
+    !class_list.contains("badge"),
+  )
+  class_list.remove("active")
+  browser_assert(
+    "classList remove clears a token",
+    !class_list.contains("active"),
+  )
+  class_list.add("token-a")
+  class_list.add("token-b")
+  let token_snapshot = class_list.to_array()
+  browser_assert(
+    "classList converts to a MoonBit Array",
+    token_snapshot == ["token-a", "token-b"],
+  )
+  class_list.remove("token-b")
+  browser_assert(
+    "classList snapshot remains stable",
+    token_snapshot == ["token-a", "token-b"],
+  )
+  browser_assert(
+    "classList live collection updates",
+    !class_list.contains("token-b"),
+  )
+  browser_assert(
+    "Element matches its id selector",
+    fixture.matches("#dom-ffi-conformance"),
+  )
+  browser_assert(
+    "Element rejects a nonmatching selector",
+    !fixture.matches(".missing"),
+  )
+  let matched_items = fixture.query_selector_all(".dom-ffi-item")
+  browser_assert(
+    "Element querySelectorAll finds descendants",
+    matched_items.length() == 3,
+  )
+  browser_assert(
+    "Element querySelectorAll returns an empty Array when missing",
+    fixture.query_selector_all(".missing").is_empty(),
+  )
+  browser_assert(
+    "Element closest finds its containing section",
+    js_identity(
+      @dom_ffi.v_to_js_obscure(matched_items[0].closest("section").unwrap()),
+      @dom_ffi.v_to_js_obscure(fixture),
+    ),
+  )
+  browser_assert(
+    "Element closest maps a missing ancestor to None",
+    fixture.closest("article") is None,
+  )
+  browser_assert(
+    "firstElementChild skips a text node",
+    fixture.first_element_child().unwrap().tag_name() == "SPAN",
+  )
+  browser_assert(
+    "lastElementChild finds the appended element",
+    fixture.last_element_child().unwrap().tag_name() == "EM",
+  )
+  browser_assert(
+    "nextElementSibling finds the following item",
+    matched_items[0].next_element_sibling().unwrap().tag_name() == "SPAN",
+  )
+  browser_assert(
+    "previousElementSibling finds the preceding item",
+    js_identity(
+      @dom_ffi.v_to_js_obscure(
+        matched_items[1].previous_element_sibling().unwrap(),
+      ),
+      @dom_ffi.v_to_js_obscure(matched_items[0]),
+    ),
+  )
+  browser_assert(
+    "first element sibling maps previous absence to None",
+    matched_items[0].previous_element_sibling() is None,
+  )
+  browser_assert(
+    "last element sibling maps next absence to None",
+    fixture.last_element_child().unwrap().next_element_sibling() is None,
+  )
+  browser_assert(
+    "Element contains its descendant",
+    fixture.contains(extra.reinterpret_as_node()),
+  )
+  browser_assert(
+    "Element does not contain its ancestor",
+    !extra.contains(fixture_node),
+  )
+  browser_assert(
+    "Element textContent preserves text",
+    fixture.text_content() == "textonetwo",
+  )
+  browser_assert(
+    "Node textContent preserves text-node content",
+    fixture_node.first_child().unwrap().text_content() == Some("text"),
+  )
+  browser_assert(
+    "Document textContent maps null to None",
+    document_node.text_content() is None,
+  )
+  browser_assert(
+    "Element innerHTML exposes contained markup",
+    text_includes(fixture.inner_html(), "dom-ffi-item"),
   )
 }
