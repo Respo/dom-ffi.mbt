@@ -113,6 +113,54 @@ extern "js" fn text_includes(text : String, part : String) -> Bool =
   #| (text, part) => text.includes(part)
 
 ///|
+extern "js" fn reset_submit_report() -> Unit =
+  #| () => { globalThis.__domFfiSubmitReport = { called: false, submitter: null, prevented: false }; }
+
+///|
+extern "js" fn record_submitter(
+  submitter : @dom_ffi.Element,
+  prevented : Bool,
+) -> Unit =
+  #| (submitter, prevented) => {
+  #|   globalThis.__domFfiSubmitReport.called = true;
+  #|   globalThis.__domFfiSubmitReport.submitter = submitter;
+  #|   globalThis.__domFfiSubmitReport.prevented = prevented;
+  #| }
+
+///|
+extern "js" fn record_submit_without_submitter(prevented : Bool) -> Unit =
+  #| (prevented) => {
+  #|   globalThis.__domFfiSubmitReport.called = true;
+  #|   globalThis.__domFfiSubmitReport.submitter = null;
+  #|   globalThis.__domFfiSubmitReport.prevented = prevented;
+  #| }
+
+///|
+extern "js" fn submit_report_called() -> Bool =
+  #| () => globalThis.__domFfiSubmitReport.called
+
+///|
+extern "js" fn submit_report_matches(submitter : @dom_ffi.Element) -> Bool =
+  #| (submitter) => globalThis.__domFfiSubmitReport.submitter === submitter
+
+///|
+extern "js" fn submit_report_prevented() -> Bool =
+  #| () => globalThis.__domFfiSubmitReport.prevented
+
+///|
+extern "js" fn submit_report_has_no_submitter() -> Bool =
+  #| () => globalThis.__domFfiSubmitReport.submitter === null
+
+///|
+fn record_submit(event : @dom_ffi.Event) -> Unit {
+  event.prevent_default()
+  match event.reinterpret_as_submit_event().submitter() {
+    Some(submitter) => record_submitter(submitter, event.default_prevented())
+    None => record_submit_without_submitter(event.default_prevented())
+  }
+}
+
+///|
 fn main {
   begin_conformance_report()
   let doc = @dom_ffi.window().document()
@@ -655,5 +703,139 @@ fn main {
   browser_assert(
     "Element innerHTML exposes contained markup",
     text_includes(fixture.inner_html(), "dom-ffi-item"),
+  )
+  let form_element = doc.create_element("form")
+  let form = form_element.reinterpret_as_html_form_element()
+  form.set_submission_method("post")
+  browser_assert(
+    "HtmlFormElement preserves method",
+    form.submission_method() == "post",
+  )
+  browser_assert(
+    "HtmlFormElement validates valid controls",
+    form.check_validity(),
+  )
+  let input_element = doc.create_element("input")
+  input_element.set_attribute("name", "title")
+  input_element.set_attribute("value", "default title")
+  let input = input_element.reinterpret_as_html_input_element()
+  input.set_value("MoonBit")
+  form_element.append_child(input_element.reinterpret_as_node())
+  let select_element = doc.create_element("select")
+  select_element.set_attribute("name", "level")
+  select_element.set_inner_html(
+    "<option value=\"basic\">Basic</option><option value=\"advanced\">Advanced</option>",
+  )
+  let select = select_element.reinterpret_as_html_select_element()
+  select.set_value("advanced")
+  browser_assert(
+    "HtmlSelectElement preserves selected value",
+    select.value() == "advanced",
+  )
+  form_element.append_child(select_element.reinterpret_as_node())
+  let button_element = doc.create_element("button")
+  button_element.set_attribute("type", "submit")
+  button_element.set_attribute("name", "intent")
+  let button = button_element.reinterpret_as_html_button_element()
+  button.set_value("save")
+  browser_assert("HtmlButtonElement preserves value", button.value() == "save")
+  browser_assert("HtmlButtonElement starts enabled", !button.disabled())
+  button.set_disabled(true)
+  browser_assert("HtmlButtonElement preserves disabled", button.disabled())
+  button.set_disabled(false)
+  form_element.append_child(button_element.reinterpret_as_node())
+  let input_submitter = doc.create_element("input")
+  input_submitter.set_attribute("type", "submit")
+  input_submitter.set_attribute("name", "secondary-intent")
+  input_submitter.set_attribute("value", "secondary")
+  form_element.append_child(input_submitter.reinterpret_as_node())
+  body.append_child(form_element.reinterpret_as_node())
+  let form_data = @dom_ffi.FormData::new_from_form(form)
+  browser_assert(
+    "FormData from a form preserves input value",
+    match form_data.get("title") {
+      Some(Text("MoonBit")) => true
+      _ => false
+    },
+  )
+  browser_assert(
+    "FormData from a form preserves select value",
+    match form_data.get("level") {
+      Some(Text("advanced")) => true
+      _ => false
+    },
+  )
+  browser_assert(
+    "FormData from a form excludes an unclicked submit button",
+    form_data.get("intent") is None,
+  )
+  form.reset()
+  browser_assert(
+    "HtmlFormElement reset restores input default",
+    input.value() == "default title",
+  )
+  browser_assert(
+    "HtmlFormElement reset restores select default",
+    select.value() == "basic",
+  )
+  browser_assert(
+    "FormData from a form remains a snapshot after reset",
+    match form_data.get("title") {
+      Some(Text("MoonBit")) => true
+      _ => false
+    },
+  )
+  browser_assert(
+    "SubmitEvent without an init submitter maps to None",
+    @dom_ffi.SubmitEvent::new("submit").submitter() is None,
+  )
+  let submit_init = @dom_ffi.SubmitEventInit::new()
+  submit_init.set_submitter(button_element)
+  let synthetic_submit = @dom_ffi.SubmitEvent::new_with_init_dict(
+    "submit", submit_init,
+  )
+  browser_assert(
+    "SubmitEvent init preserves submitter identity",
+    js_identity(
+      @dom_ffi.v_to_js_obscure(synthetic_submit.submitter().unwrap()),
+      @dom_ffi.v_to_js_obscure(button_element),
+    ),
+  )
+  reset_submit_report()
+  form_element
+  .reinterpret_as_event_target()
+  .add_event_listener("submit", record_submit)
+  form.request_submit_with_submitter(button_element)
+  browser_assert(
+    "requestSubmit dispatches a submit event",
+    submit_report_called(),
+  )
+  browser_assert(
+    "requestSubmit reports its button submitter",
+    submit_report_matches(button_element),
+  )
+  browser_assert(
+    "SubmitEvent listener can prevent default",
+    submit_report_prevented(),
+  )
+  reset_submit_report()
+  form.request_submit()
+  browser_assert(
+    "requestSubmit without an argument dispatches a submit event",
+    submit_report_called(),
+  )
+  browser_assert(
+    "requestSubmit without an argument maps submitter to None",
+    submit_report_has_no_submitter(),
+  )
+  reset_submit_report()
+  form.request_submit_with_submitter(input_submitter)
+  browser_assert(
+    "requestSubmit accepts an input submitter",
+    submit_report_called(),
+  )
+  browser_assert(
+    "requestSubmit preserves input submitter identity",
+    submit_report_matches(input_submitter),
   )
 }

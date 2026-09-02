@@ -137,7 +137,10 @@ pub fn Element::previous_element_sibling(Self) -> Self?
 pub fn Element::query_selector(Self, String) -> Self?
 pub fn Element::query_selector_all(Self, String) -> Array[Self]
 pub fn Element::reinterpret_as_event_target(Self) -> EventTarget
+pub fn Element::reinterpret_as_html_button_element(Self) -> HtmlButtonElement
+pub fn Element::reinterpret_as_html_form_element(Self) -> HtmlFormElement
 pub fn Element::reinterpret_as_html_input_element(Self) -> HtmlInputElement
+pub fn Element::reinterpret_as_html_select_element(Self) -> HtmlSelectElement
 pub fn Element::reinterpret_as_html_textarea_element(Self) -> HtmlTextAreaElement
 pub fn Element::reinterpret_as_node(Self) -> Node
 pub fn Element::remove_attribute(Self, String) -> Unit
@@ -180,6 +183,7 @@ pub fn Event::default_prevented(Self) -> Bool
 pub fn Event::new(String) -> Self
 pub fn Event::new_with_options(String, bubbles? : Bool, cancelable? : Bool) -> Self
 pub fn Event::prevent_default(Self) -> Unit
+pub fn Event::reinterpret_as_submit_event(Self) -> SubmitEvent
 pub fn Event::stop_propagation(Self) -> Unit
 pub fn Event::target(Self) -> EventTarget?
 pub fn Event::type_(Self) -> String
@@ -226,6 +230,7 @@ pub fn FormData::get(Self, String) -> FormDataValue?
 pub fn FormData::get_all(Self, String) -> Array[FormDataValue]
 pub fn FormData::has(Self, String) -> Bool
 pub fn FormData::new() -> Self
+pub fn FormData::new_from_form(HtmlFormElement) -> Self
 pub fn FormData::set_file(Self, String, File) -> Unit
 pub fn FormData::set_text(Self, String, String) -> Unit
 
@@ -233,6 +238,22 @@ pub enum FormDataValue {
   Text(String)
   File(File)
 }
+
+#external
+pub type HtmlButtonElement
+pub fn HtmlButtonElement::disabled(Self) -> Bool
+pub fn HtmlButtonElement::set_disabled(Self, Bool) -> Unit
+pub fn HtmlButtonElement::set_value(Self, String) -> Unit
+pub fn HtmlButtonElement::value(Self) -> String
+
+#external
+pub type HtmlFormElement
+pub fn HtmlFormElement::check_validity(Self) -> Bool
+pub fn HtmlFormElement::request_submit(Self) -> Unit
+pub fn HtmlFormElement::request_submit_with_submitter(Self, Element) -> Unit
+pub fn HtmlFormElement::reset(Self) -> Unit
+pub fn HtmlFormElement::set_submission_method(Self, String) -> Unit
+pub fn HtmlFormElement::submission_method(Self) -> String
 
 #external
 pub(all) type HtmlInputElement
@@ -249,6 +270,11 @@ pub fn HtmlInputElement::set_onkeyup(Self, ((KeyboardEvent) -> Unit)?) -> Unit
 pub fn HtmlInputElement::set_value(Self, String) -> Unit
 pub fn HtmlInputElement::unset_oninput(Self) -> Unit
 pub fn HtmlInputElement::value(Self) -> String
+
+#external
+pub type HtmlSelectElement
+pub fn HtmlSelectElement::set_value(Self, String) -> Unit
+pub fn HtmlSelectElement::value(Self) -> String
 
 #external
 pub(all) type HtmlTextAreaElement
@@ -436,6 +462,18 @@ pub fn PointerEventInit::set_client_x(Self, Float) -> Unit
 pub fn PointerEventInit::set_client_y(Self, Float) -> Unit
 pub fn PointerEventInit::set_pointer_id(Self, Int) -> Unit
 pub fn PointerEventInit::set_pressure(Self, Float) -> Unit
+
+#external
+pub type SubmitEvent
+pub fn SubmitEvent::new(String) -> Self
+pub fn SubmitEvent::new_with_init_dict(String, SubmitEventInit) -> Self
+pub fn SubmitEvent::reinterpret_as_event(Self) -> Event
+pub fn SubmitEvent::submitter(Self) -> Element?
+
+#external
+pub type SubmitEventInit
+pub fn SubmitEventInit::new() -> Self
+pub fn SubmitEventInit::set_submitter(Self, Element) -> Unit
 
 type URLSearchParams
 pub fn URLSearchParams::append(Self, String, String) -> Unit
