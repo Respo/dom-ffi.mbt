@@ -49,14 +49,26 @@ pub extern "js" fn HtmlFormElement::reset(self : HtmlFormElement) -> Unit =
   #| (self) => self.reset()
 
 ///|
-/// | Requests form submission with the supplied submit button.
+/// | Requests form submission without an explicit submitter.
 /// |
 /// | The browser performs constraint validation and dispatches a `SubmitEvent`.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/requestSubmit)
 pub extern "js" fn HtmlFormElement::request_submit(
   self : HtmlFormElement,
-  submitter : HtmlButtonElement,
+) -> Unit =
+  #| (self) => self.requestSubmit()
+
+///|
+/// | Requests form submission with the supplied submitter element.
+/// |
+/// | The element must be a valid form-associated submit control, such as a
+/// | submit button or submit input; the browser throws for an invalid element.
+/// |
+/// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/requestSubmit)
+pub extern "js" fn HtmlFormElement::request_submit_with_submitter(
+  self : HtmlFormElement,
+  submitter : Element,
 ) -> Unit =
   #| (self, submitter) => self.requestSubmit(submitter)
 
@@ -181,7 +193,7 @@ extern "js" fn SubmitEvent::js_submitter(self : SubmitEvent) -> JsObscure =
   #| (self) => self.submitter
 
 ///|
-/// | Returns the submit button that triggered this event, or `None` when the
+/// | Returns the submitter element that triggered this event, or `None` when the
 /// | event has no submitter.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/SubmitEvent/submitter)
@@ -223,7 +235,7 @@ pub extern "js" fn SubmitEventInit::new() -> SubmitEventInit =
   #| () => ({})
 
 ///|
-/// | Sets the button exposed as the event submitter.
+/// | Sets the element exposed as the event submitter.
 /// |
 /// | [MDN Reference](https://developer.mozilla.org/en-US/docs/Web/API/SubmitEvent/SubmitEvent#options)
 pub extern "js" fn SubmitEventInit::set_submitter(

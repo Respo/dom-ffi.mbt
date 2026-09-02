@@ -15,7 +15,7 @@ test("MoonBit bindings preserve core DOM runtime contracts", async ({ page }) =>
     .poll(() =>
       page.evaluate(() => globalThis.__domFfiConformance?.passed ?? 0),
     )
-    .toBe(138);
+    .toBe(142);
 
   const evidence = await page.evaluate(() => globalThis.__domFfiConformance);
   expect(evidence.passed).toBe(evidence.assertions.length);

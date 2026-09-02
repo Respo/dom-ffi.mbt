@@ -128,6 +128,14 @@ extern "js" fn record_submitter(
   #| }
 
 ///|
+extern "js" fn record_submit_without_submitter(prevented : Bool) -> Unit =
+  #| (prevented) => {
+  #|   globalThis.__domFfiSubmitReport.called = true;
+  #|   globalThis.__domFfiSubmitReport.submitter = null;
+  #|   globalThis.__domFfiSubmitReport.prevented = prevented;
+  #| }
+
+///|
 extern "js" fn submit_report_called() -> Bool =
   #| () => globalThis.__domFfiSubmitReport.called
 
@@ -140,11 +148,15 @@ extern "js" fn submit_report_prevented() -> Bool =
   #| () => globalThis.__domFfiSubmitReport.prevented
 
 ///|
+extern "js" fn submit_report_has_no_submitter() -> Bool =
+  #| () => globalThis.__domFfiSubmitReport.submitter === null
+
+///|
 fn record_submit(event : @dom_ffi.Event) -> Unit {
   event.prevent_default()
   match event.reinterpret_as_submit_event().submitter() {
     Some(submitter) => record_submitter(submitter, event.default_prevented())
-    None => ()
+    None => record_submit_without_submitter(event.default_prevented())
   }
 }
 
@@ -732,6 +744,11 @@ fn main {
   browser_assert("HtmlButtonElement preserves disabled", button.disabled())
   button.set_disabled(false)
   form_element.append_child(button_element.reinterpret_as_node())
+  let input_submitter = doc.create_element("input")
+  input_submitter.set_attribute("type", "submit")
+  input_submitter.set_attribute("name", "secondary-intent")
+  input_submitter.set_attribute("value", "secondary")
+  form_element.append_child(input_submitter.reinterpret_as_node())
   body.append_child(form_element.reinterpret_as_node())
   let form_data = @dom_ffi.FormData::new_from_form(form)
   browser_assert(
@@ -788,7 +805,7 @@ fn main {
   form_element
   .reinterpret_as_event_target()
   .add_event_listener("submit", record_submit)
-  form.request_submit(button)
+  form.request_submit_with_submitter(button_element)
   browser_assert(
     "requestSubmit dispatches a submit event",
     submit_report_called(),
@@ -800,5 +817,25 @@ fn main {
   browser_assert(
     "SubmitEvent listener can prevent default",
     submit_report_prevented(),
+  )
+  reset_submit_report()
+  form.request_submit()
+  browser_assert(
+    "requestSubmit without an argument dispatches a submit event",
+    submit_report_called(),
+  )
+  browser_assert(
+    "requestSubmit without an argument maps submitter to None",
+    submit_report_has_no_submitter(),
+  )
+  reset_submit_report()
+  form.request_submit_with_submitter(input_submitter)
+  browser_assert(
+    "requestSubmit accepts an input submitter",
+    submit_report_called(),
+  )
+  browser_assert(
+    "requestSubmit preserves input submitter identity",
+    submit_report_matches(input_submitter),
   )
 }
