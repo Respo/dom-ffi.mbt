@@ -343,4 +343,55 @@ fn main {
     "Passive listener cannot prevent the default action",
     !passive_event.default_prevented(),
   )
+  let pointer_init = @dom_ffi.PointerEventInit::new()
+  pointer_init.set_button(2)
+  pointer_init.set_buttons(3)
+  pointer_init.set_pointer_id(42)
+  pointer_init.set_pressure(0.5)
+  pointer_init.set_client_x(12.5)
+  pointer_init.set_client_y(24.5)
+  let pointer_event = @dom_ffi.PointerEvent::new_with_init_dict(
+    "pointermove", pointer_init,
+  )
+  browser_assert("PointerEvent preserves button", pointer_event.button() == 2)
+  browser_assert("PointerEvent preserves buttons", pointer_event.buttons() == 3)
+  browser_assert(
+    "PointerEvent preserves pointerId",
+    pointer_event.pointer_id() == 42,
+  )
+  browser_assert(
+    "PointerEvent preserves pressure",
+    pointer_event.pressure() == 0.5,
+  )
+  browser_assert(
+    "PointerEvent preserves clientX",
+    pointer_event.client_x() == 12.5,
+  )
+  browser_assert(
+    "PointerEvent preserves clientY",
+    pointer_event.client_y() == 24.5,
+  )
+  browser_assert(
+    "PointerEvent dispatch succeeds",
+    @dom_ffi.EventTarget::new().dispatch_event(
+      pointer_event.reinterpret_as_event(),
+    ),
+  )
+  let wheel_init = @dom_ffi.WheelEventInit::new()
+  wheel_init.set_delta_x(1.25)
+  wheel_init.set_delta_y(-2.5)
+  wheel_init.set_delta_mode(1)
+  let wheel_event = @dom_ffi.WheelEvent::new_with_init_dict("wheel", wheel_init)
+  browser_assert("WheelEvent preserves deltaX", wheel_event.delta_x() == 1.25)
+  browser_assert("WheelEvent preserves deltaY", wheel_event.delta_y() == -2.5)
+  browser_assert(
+    "WheelEvent preserves deltaMode",
+    wheel_event.delta_mode() == 1,
+  )
+  browser_assert(
+    "WheelEvent dispatch succeeds",
+    @dom_ffi.EventTarget::new().dispatch_event(
+      wheel_event.reinterpret_as_event(),
+    ),
+  )
 }
