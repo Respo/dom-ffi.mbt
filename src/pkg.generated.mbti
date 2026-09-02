@@ -97,6 +97,14 @@ pub(all) struct DomRect {
 }
 
 #external
+pub type DomTokenList
+pub fn DomTokenList::add(Self, String) -> Unit
+pub fn DomTokenList::contains(Self, String) -> Bool
+pub fn DomTokenList::remove(Self, String) -> Unit
+pub fn DomTokenList::to_array(Self) -> Array[String]
+pub fn DomTokenList::toggle(Self, String) -> Bool
+
+#external
 pub type DragEvent
 pub fn DragEvent::client_x(Self) -> Float
 pub fn DragEvent::client_y(Self) -> Float
@@ -111,11 +119,23 @@ pub fn DragEvent::stop_propagation(Self) -> Unit
 #external
 pub(all) type Element
 pub fn Element::append_child(Self, Node) -> Unit
+pub fn Element::class_list(Self) -> DomTokenList
+pub fn Element::closest(Self, String) -> Self?
+pub fn Element::contains(Self, Node) -> Bool
 pub fn Element::data_attribute(Self, String) -> String?
+pub fn Element::first_element_child(Self) -> Self?
 pub fn Element::focus(Self) -> Unit
+pub fn Element::get_attribute(Self, String) -> String?
 pub fn Element::get_bounding_client_rect(Self) -> DomRect
+pub fn Element::has_attribute(Self, String) -> Bool
+pub fn Element::inner_html(Self) -> String
 pub fn Element::js_query_selector(Self, String) -> JsObscure
+pub fn Element::last_element_child(Self) -> Self?
+pub fn Element::matches(Self, String) -> Bool
+pub fn Element::next_element_sibling(Self) -> Self?
+pub fn Element::previous_element_sibling(Self) -> Self?
 pub fn Element::query_selector(Self, String) -> Self?
+pub fn Element::query_selector_all(Self, String) -> Array[Self]
 pub fn Element::reinterpret_as_event_target(Self) -> EventTarget
 pub fn Element::reinterpret_as_html_input_element(Self) -> HtmlInputElement
 pub fn Element::reinterpret_as_html_textarea_element(Self) -> HtmlTextAreaElement
@@ -137,7 +157,10 @@ pub fn Element::set_ondragover(Self, (DragEvent) -> Unit) -> Unit
 pub fn Element::set_ondragstart(Self, (DragEvent) -> Unit) -> Unit
 pub fn Element::set_ondrop(Self, (DragEvent) -> Unit) -> Unit
 pub fn Element::tag_name(Self) -> String
+pub fn Element::text_content(Self) -> String
 pub fn Element::to_js_object(Self) -> JsObjectObscure
+pub fn Element::toggle_attribute(Self, String) -> Bool
+pub fn Element::toggle_attribute_with_force(Self, String, Bool) -> Bool
 pub fn Element::unset_onclick(Self) -> Unit
 pub fn Element::unset_ondblclick(Self) -> Unit
 pub fn Element::unset_ondrag(Self) -> Unit
@@ -385,6 +408,7 @@ pub fn Node::reinterpret_as_event_target(Self) -> EventTarget
 pub fn Node::remove(Self) -> Unit
 pub fn Node::remove_child(Self, Self) -> Unit
 pub fn Node::style(Self) -> CSSStyleDeclaration
+pub fn Node::text_content(Self) -> String?
 pub fn Node::to_js_object(Self) -> JsObjectObscure
 
 #external
