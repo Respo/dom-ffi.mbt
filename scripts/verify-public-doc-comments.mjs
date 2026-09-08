@@ -2,8 +2,8 @@ import { readFileSync, readdirSync } from "node:fs";
 import { basename, resolve } from "node:path";
 
 const sourceDirectory = resolve("src");
-const minimumCoverage = 75;
-const maximumMissingDeclarations = 63;
+const minimumCoverage = 85;
+const maximumMissingDeclarations = 58;
 const declarationPattern =
   /^\s*pub(?:\(all\))?\s+(?:(?:async\s+)?fn(?:\[[^\]\n]*\])?|extern\s+"[^"]+"\s+fn|type|struct|enum|trait)\s+([^\s({=]+)/gm;
 const docCommentPattern = /^\s*\/\/\/\s+\S/m;

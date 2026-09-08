@@ -324,6 +324,8 @@ pub fn DragEvent::data_transfer(self : DragEvent) -> DataTransfer? {
 pub type DataTransfer
 
 ///|
+/// Writes string data in a writable store, replacing any entry of this format.
+/// https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData
 pub extern "js" fn DataTransfer::set_data(
   self : DataTransfer,
   format : String,
@@ -332,6 +334,9 @@ pub extern "js" fn DataTransfer::set_data(
   #| (self, format, data) => self.setData(format, data)
 
 ///|
+/// Reads string data; returns an empty string for absent or inaccessible data.
+/// Read during drop/paste, subject to browser data-store protections.
+/// https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/getData
 pub extern "js" fn DataTransfer::get_data(
   self : DataTransfer,
   format : String,
@@ -339,10 +344,14 @@ pub extern "js" fn DataTransfer::get_data(
   #| (self, format) => self.getData(format)
 
 ///|
+/// Clears string entries when writable; does not remove file entries.
+/// https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/clearData
 pub extern "js" fn DataTransfer::clear_data(self : DataTransfer) -> Unit =
   #| (self) => self.clearData()
 
 ///|
+/// Requests a drop operation: none, copy, link, or move. Invalid values are ignored.
+/// https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect
 pub extern "js" fn DataTransfer::set_drop_effect(
   self : DataTransfer,
   effect : String,
@@ -350,6 +359,8 @@ pub extern "js" fn DataTransfer::set_drop_effect(
   #| (self, effect) => { self.dropEffect = effect }
 
 ///|
+/// Sets allowed drag operations during dragstart; other phases may ignore it.
+/// https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/effectAllowed
 pub extern "js" fn DataTransfer::set_effect_allowed(
   self : DataTransfer,
   effect : String,
