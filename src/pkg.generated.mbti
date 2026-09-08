@@ -67,13 +67,42 @@ pub fn CSSStyleDeclaration::remove_property(Self, String) -> Unit
 pub fn CSSStyleDeclaration::set_property(Self, String, String) -> Unit
 
 #external
+pub type ClipboardEvent
+pub fn ClipboardEvent::clipboard_data(Self) -> DataTransfer?
+pub fn ClipboardEvent::new(String) -> Self
+pub fn ClipboardEvent::new_with_init_dict(String, ClipboardEventInit) -> Self
+pub fn ClipboardEvent::reinterpret_as_event(Self) -> Event
+
+#external
+pub type ClipboardEventInit
+pub fn ClipboardEventInit::new() -> Self
+pub fn ClipboardEventInit::set_bubbles(Self, Bool) -> Unit
+pub fn ClipboardEventInit::set_cancelable(Self, Bool) -> Unit
+pub fn ClipboardEventInit::set_clipboard_data(Self, DataTransfer) -> Unit
+
+#external
 pub type DataTransfer
 pub fn DataTransfer::clear_data(Self) -> Unit
 pub fn DataTransfer::files(Self) -> FileList
 pub fn DataTransfer::get_data(Self, String) -> String
+pub fn DataTransfer::items(Self) -> DataTransferItemList
+pub fn DataTransfer::new() -> Self
 pub fn DataTransfer::set_data(Self, String, String) -> Unit
 pub fn DataTransfer::set_drop_effect(Self, String) -> Unit
 pub fn DataTransfer::set_effect_allowed(Self, String) -> Unit
+pub fn DataTransfer::types(Self) -> Array[String]
+
+#external
+pub type DataTransferItem
+pub fn DataTransferItem::get_as_file(Self) -> File?
+pub fn DataTransferItem::kind(Self) -> String
+pub fn DataTransferItem::type_(Self) -> String
+
+#external
+pub type DataTransferItemList
+pub fn DataTransferItemList::item(Self, Int) -> DataTransferItem?
+pub fn DataTransferItemList::length(Self) -> Int
+pub fn DataTransferItemList::to_array(Self) -> Array[DataTransferItem]
 
 #external
 pub(all) type Document
@@ -183,6 +212,7 @@ pub fn Event::default_prevented(Self) -> Bool
 pub fn Event::new(String) -> Self
 pub fn Event::new_with_options(String, bubbles? : Bool, cancelable? : Bool) -> Self
 pub fn Event::prevent_default(Self) -> Unit
+pub fn Event::reinterpret_as_clipboard_event(Self) -> ClipboardEvent
 pub fn Event::reinterpret_as_submit_event(Self) -> SubmitEvent
 pub fn Event::stop_propagation(Self) -> Unit
 pub fn Event::target(Self) -> EventTarget?
