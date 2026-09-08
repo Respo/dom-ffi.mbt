@@ -25,7 +25,7 @@ The public surface targets JavaScript and follows the corresponding Web IDL
 nullability. DOM `NodeList` and `HTMLCollection` values are copied into
 MoonBit arrays; these arrays are snapshots rather than live collections.
 
-### Clipboard and transfer payloads (unreleased)
+### Clipboard and transfer payloads (0.5.0)
 
 `ClipboardEvent::clipboard_data()` returns the original `DataTransfer`, or
 `None` for a constructed event without data. Use `ClipboardEventInit` to supply
