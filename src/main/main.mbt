@@ -164,6 +164,7 @@ fn record_submit(event : @dom_ffi.Event) -> Unit {
 fn main {
   begin_conformance_report()
   run_clipboard_conformance()
+  run_promise_conformance()
   let doc = @dom_ffi.window().document()
   browser_assert("document.body is Some", doc.body() is Some(_))
   browser_assert("document.head is Some", doc.head() is Some(_))

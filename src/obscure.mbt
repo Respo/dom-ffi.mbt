@@ -151,8 +151,15 @@ pub fn JsObscure::from_float(n : Float) -> JsObscure = "%identity"
 pub fn JsObscure::from_bool(b : Bool) -> JsObscure = "%identity"
 
 ///|
-/// | Converts an `Array[JsObscure]` to `JsObscure`.
-pub fn JsObscure::from_array(a : Array[JsObscure]) -> JsObscure = "%identity"
+extern "js" fn js_array_to_obscure(a : FixedArray[JsObscure]) -> JsObscure =
+  #| (a) => a
+
+///|
+/// Copies a MoonBit array into a plain JavaScript array.
+/// The array containers are independent; object elements retain their identity.
+pub fn JsObscure::from_array(a : Array[JsObscure]) -> JsObscure {
+  js_array_to_obscure(FixedArray::from_array(a[:]))
+}
 
 // JsObject
 

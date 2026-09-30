@@ -13,6 +13,9 @@ pub impl Show for Performance with fn output(
 }
 
 ///|
+pub extend Performance with Show::{to_string, output}
+
+///|
 /// Gets the Performance object from the window, providing access to performance-related information.
 ///
 /// # Parameters

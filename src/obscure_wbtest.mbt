@@ -27,6 +27,25 @@ extern "js" fn test_method_object() -> JsObjectObscure =
   #| })
 
 ///|
+extern "js" fn test_same_reference(left : JsObscure, right : JsObscure) -> Bool =
+  #| (left, right) => left === right
+
+///|
+test "from_array copies its container and preserves object references" {
+  let object = test_plain_object()
+  let source = [object]
+  let snapshot = JsObscure::from_array(source)
+  source.push(JsObscure::from_number(7))
+  let length : Int = js_obscure_to_v(snapshot.get("length"))
+  inspect(length, content="1")
+  inspect(test_same_reference(snapshot.get("0"), object), content="true")
+  snapshot.set("0", JsObscure::from_number(9))
+  inspect(test_same_reference(source[0], object), content="true")
+  snapshot.set("length", JsObscure::from_number(0))
+  inspect(source.length(), content="2")
+}
+
+///|
 test "null, undefined, and object predicates stay distinct" {
   inspect(JsObscure::null().is_nil(), content="true")
   inspect(JsObscure::undefined().is_nil(), content="false")

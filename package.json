@@ -3,11 +3,11 @@
   "version": "0.3.0",
   "private": true,
   "scripts": {
-    "build:moon": "moon build --target js --debug",
-    "check": "moon check --target js",
+    "build:moon": "moon build --target js --debug --deny-warn",
+    "check": "moon check --target js --deny-warn",
     "check:docs": "node scripts/verify-public-doc-comments.mjs",
-    "test": "moon test --target js",
-    "test:browser": "moon build --target js --debug && playwright test"
+    "test": "moon test --target js --deny-warn",
+    "test:browser": "moon build --target js --debug --deny-warn && playwright test"
   },
   "devDependencies": {
     "@playwright/test": "1.62.1"

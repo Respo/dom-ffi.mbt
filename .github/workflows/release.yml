@@ -46,9 +46,9 @@ jobs:
       - name: Check, test, and build the JS target
         run: |
           moon version --all
-          moon check --target js
-          moon test --target js
-          moon build --target js --debug
+          moon check --target js --deny-warn
+          moon test --target js --deny-warn
+          moon build --target js --debug --deny-warn
 
       - name: Verify generated interface and formatting
         run: |
@@ -96,6 +96,6 @@ jobs:
           }
           EOF
           moon fmt
-          moon check --target js
-          moon test --target js
-          moon build --target js --debug
+          moon check --target js --deny-warn
+          moon test --target js --deny-warn
+          moon build --target js --debug --deny-warn
