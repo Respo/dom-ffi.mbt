@@ -94,11 +94,18 @@ pub extern "js" fn DataTransfer::new() -> DataTransfer =
   #| () => new DataTransfer()
 
 ///|
+extern "js" fn DataTransfer::types_ffi(
+  self : DataTransfer,
+) -> FixedArray[String] =
+  #| (self) => Array.from(self.types)
+
+///|
 /// Returns a copied array of format names; includes Files when files are present.
 /// Later store changes do not update this array.
 /// https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/types
-pub extern "js" fn DataTransfer::types(self : DataTransfer) -> Array[String] =
-  #| (self) => Array.from(self.types)
+pub fn DataTransfer::types(self : DataTransfer) -> Array[String] {
+  Array::from_fixed_array(DataTransfer::types_ffi(self))
+}
 
 ///|
 /// Returns the live item list. Browser protected-mode restrictions still apply.
@@ -145,14 +152,21 @@ pub fn DataTransferItemList::item(
 }
 
 ///|
+extern "js" fn DataTransferItemList::to_array_ffi(
+  self : DataTransferItemList,
+) -> FixedArray[DataTransferItem] =
+  #| (self) => Array.from(self)
+
+///|
 /// Copies item references into an array; this is not a deep copy of item contents.
 /// Removing/clearing items can invalidate those references; retain File or String
 /// values during the handler when needed beyond the data store's lifetime.
 /// https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList
-pub extern "js" fn DataTransferItemList::to_array(
+pub fn DataTransferItemList::to_array(
   self : DataTransferItemList,
-) -> Array[DataTransferItem] =
-  #| (self) => Array.from(self)
+) -> Array[DataTransferItem] {
+  Array::from_fixed_array(DataTransferItemList::to_array_ffi(self))
+}
 
 ///|
 /// A string or file item whose accessibility follows the underlying data store.
