@@ -94,12 +94,15 @@ pub extern "js" fn DataTransfer::new() -> DataTransfer =
   #| () => new DataTransfer()
 
 ///|
+extern "js" fn DataTransfer::types_ffi(
+  self : DataTransfer,
+) -> FixedArray[String] =
+  #| (self) => Array.from(self.types)
+
+///|
 /// Returns a copied array of format names; includes Files when files are present.
 /// Later store changes do not update this array.
 /// https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/types
-pub extern "js" fn DataTransfer::types_ffi(self : DataTransfer) -> FixedArray[String] =
-  #| (self) => Array.from(self.types)
-
 pub fn DataTransfer::types(self : DataTransfer) -> Array[String] {
   Array::from_fixed_array(DataTransfer::types_ffi(self))
 }
@@ -149,15 +152,16 @@ pub fn DataTransferItemList::item(
 }
 
 ///|
-/// Copies item references into an array; this is not a deep copy of item contents.
-/// Removing/clearing items can invalidate those references; retain File or String
-/// values during the handler when needed beyond the data store's lifetime.
-/// https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList
-pub extern "js" fn DataTransferItemList::to_array_ffi(
+extern "js" fn DataTransferItemList::to_array_ffi(
   self : DataTransferItemList,
 ) -> FixedArray[DataTransferItem] =
   #| (self) => Array.from(self)
 
+///|
+/// Copies item references into an array; this is not a deep copy of item contents.
+/// Removing/clearing items can invalidate those references; retain File or String
+/// values during the handler when needed beyond the data store's lifetime.
+/// https://developer.mozilla.org/en-US/docs/Web/API/DataTransferItemList
 pub fn DataTransferItemList::to_array(
   self : DataTransferItemList,
 ) -> Array[DataTransferItem] {
