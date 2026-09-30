@@ -23,8 +23,8 @@ jobs:
       - name: Setup MoonBit
         uses: hustcer/setup-moonbit@1522f9aef02a8ca0187dfc00a41f5dd6b16750f7 # v1.23
         with:
-          version: "0.10.4+2cc641edf"
-          core-version: "0.10.4+2cc641edf"
+          version: "0.10.14+7d59c7ec9"
+          core-version: "0.10.14+7d59c7ec9"
 
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
@@ -45,7 +45,7 @@ jobs:
 
       - name: Check, test, and build the JS target
         run: |
-          moon version
+          moon version --all
           moon check --target js
           moon test --target js
           moon build --target js --debug
@@ -88,9 +88,7 @@ jobs:
             "tiye/dom-ffi" @dom_ffi,
           }
 
-          options(
-            "is-main": true,
-          )
+          pkgtype(kind: "executable")
           EOF
           cat > cmd/main/main.mbt <<'EOF'
           fn main {
