@@ -9,6 +9,9 @@ pub impl Show for Location with fn output(self : Location, logger : &Logger) -> 
 }
 
 ///|
+pub extend Location with Show::{output}
+
+///|
 /// Gets the Location object from the window, representing the current URL.
 ///
 /// # Parameters

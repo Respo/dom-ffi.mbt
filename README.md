@@ -47,9 +47,9 @@ after a separately reviewed GitHub Release → Actions publication.
 ### Quality checks
 
 ```bash
-moon check --target js
-moon test --target js
-moon build --target js --debug
+moon check --target js --deny-warn
+moon test --target js --deny-warn
+moon build --target js --debug --deny-warn
 corepack yarn@1.22.22 install --frozen-lockfile
 corepack yarn@1.22.22 test:browser
 ```
@@ -57,6 +57,19 @@ corepack yarn@1.22.22 test:browser
 The browser suite runs the compiled MoonBit bindings against real Chromium.
 Run `corepack yarn@1.22.22 playwright install chromium` once if Chromium is
 not already installed.
+
+### JavaScript interop
+
+`JsPromise::new` accepts an executor function taking `resolve` and `reject`
+callbacks. `then` and `catch_` return native Promises for chaining, including
+adoption of Promise-valued callback results and propagation of thrown errors.
+The constructor's previous tuple signature was invalid for JavaScript's Promise
+constructor; callers should pass an executor function.
+
+`JsObscure::from_array` creates a plain JavaScript array through `FixedArray`.
+It now copies the array container instead of exposing the MoonBit array's
+internal representation. Changes to either container are independent; object
+elements still refer to the same objects.
 
 ### License
 

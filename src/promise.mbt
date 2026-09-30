@@ -4,12 +4,15 @@ pub(all) type JsPromise
 
 ///|
 extern "js" fn js_to_string(v : JsObscure) -> String =
-  #| (v) => { return v.toString()}
+  #| (v) => v.toString()
 
 ///|
 pub impl Show for JsPromise with fn output(self : JsPromise, logger : &Logger) -> Unit {
   logger.write_string(js_to_string(v_to_js_obscure(self)))
 }
+
+///|
+pub extend JsPromise with Show::{to_string, output}
 
 ///|
 /// Creates a new JavaScript Promise with the given executor function.
@@ -21,14 +24,14 @@ pub impl Show for JsPromise with fn output(self : JsPromise, logger : &Logger) -
 /// `JsPromise` - A new Promise object
 ///
 /// # Example
-/// ```moonbit_no_check
-/// let _promise = JsPromise::new(fn(resolve, reject) {
+/// ```
+/// let _promise = JsPromise::new(fn(resolve, _reject) {
 ///   // Async operation logic here
 ///   resolve(v_to_js_obscure("success"))
 /// })
 /// ```
 pub extern "js" fn JsPromise::new(
-  f : ((JsObscure) -> Unit, (JsObscure) -> Unit),
+  f : ((JsObscure) -> Unit, (JsObscure) -> Unit) -> Unit,
 ) -> JsPromise =
   #| (f) => new Promise(f)
 
@@ -85,7 +88,7 @@ pub extern "js" fn JsPromise::then(
   self : JsPromise,
   f : (JsObscure) -> JsObscure,
 ) -> JsPromise =
-  #| (self, f) => { self.then(f) }
+  #| (self, f) => self.then(f)
 
 ///|
 /// Attaches a callback for the rejection of the Promise.
@@ -106,4 +109,4 @@ pub extern "js" fn JsPromise::catch_(
   self : JsPromise,
   f : (JsObscure) -> JsObscure,
 ) -> JsPromise =
-  #| (self, f) => { self.catch(f) }
+  #| (self, f) => self.catch(f)

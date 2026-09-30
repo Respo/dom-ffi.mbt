@@ -375,10 +375,12 @@ pub fn JsObscure::undefined() -> Self
 #external
 pub(all) type JsPromise
 pub fn JsPromise::catch_(Self, (JsObscure) -> JsObscure) -> Self
-pub fn JsPromise::new(((JsObscure) -> Unit, (JsObscure) -> Unit)) -> Self
+pub fn JsPromise::new(((JsObscure) -> Unit, (JsObscure) -> Unit) -> Unit) -> Self
+pub fn JsPromise::output(Self, &Logger) -> Unit
 pub fn JsPromise::reject(JsObscure) -> Self
 pub fn JsPromise::resolve(JsObscure) -> Self
 pub fn JsPromise::then(Self, (JsObscure) -> JsObscure) -> Self
+pub fn JsPromise::to_string(Self) -> String
 pub impl Show for JsPromise
 
 #external
@@ -424,6 +426,7 @@ pub fn Location::host(Self) -> String
 pub fn Location::hostname(Self) -> String
 pub fn Location::href(Self) -> String
 pub fn Location::origin(Self) -> String
+pub fn Location::output(Self, &Logger) -> Unit
 pub fn Location::pathname(Self) -> String
 pub fn Location::port(Self) -> String
 pub fn Location::protocol(Self) -> String
@@ -470,6 +473,8 @@ pub fn Node::to_js_object(Self) -> JsObjectObscure
 #external
 pub(all) type Performance
 pub fn Performance::now(Self) -> Float
+pub fn Performance::output(Self, &Logger) -> Unit
+pub fn Performance::to_string(Self) -> String
 pub impl Show for Performance
 
 #external
@@ -511,6 +516,7 @@ pub fn URLSearchParams::delete(Self, String) -> Unit
 pub fn URLSearchParams::get(Self, String) -> String?
 pub fn URLSearchParams::get_all(Self, String) -> Array[String]
 pub fn URLSearchParams::has(Self, String) -> Bool
+pub fn URLSearchParams::output(Self, &Logger) -> Unit
 pub fn URLSearchParams::set(Self, String, String) -> Unit
 pub fn URLSearchParams::to_string(Self) -> String
 pub impl Show for URLSearchParams

@@ -12,6 +12,9 @@ pub impl Show for URLSearchParams with fn output(
 }
 
 ///|
+pub extend URLSearchParams with Show::{output}
+
+///|
 /// Creates a new URLSearchParams object from a query string.
 ///
 /// # Parameters
